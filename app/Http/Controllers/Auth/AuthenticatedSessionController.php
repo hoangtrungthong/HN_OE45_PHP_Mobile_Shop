@@ -30,6 +30,10 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        if (Auth::user()->is_block === config('const.block')) {
+            return $this->destroy($request);
+        }
+
         $request->session()->regenerate();
 
         if (Auth::user()->role_id === config('const.admin')) {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ManageUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => 'role:admin'], function () {
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard')->middleware('role:admin');
+    Route::get('manage-user', [ManageUserController::class, 'index'])->name('manageUser');
+    Route::patch('{user}/block-user', [ManageUserController::class, 'blockUser'])->name('blockUser');
+    Route::patch('{user}/active-user', [ManageUserController::class, 'activeUser'])->name('activeUser');
+});

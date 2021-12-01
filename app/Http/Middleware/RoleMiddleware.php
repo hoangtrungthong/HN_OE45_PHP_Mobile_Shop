@@ -18,8 +18,8 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, ...$roles)
     {
         $role = Auth::user()->role->name;
-        
-        if (!in_array($role, $roles)) {
+
+        if (!in_array($role, $roles) || Auth::user()->is_block === config('const.block')) {
             abort(401);
         }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,6 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::get('manage-user', [ManageUserController::class, 'index'])->name('manageUser');
     Route::patch('{user}/block-user', [ManageUserController::class, 'blockUser'])->name('blockUser');
     Route::patch('{user}/active-user', [ManageUserController::class, 'activeUser'])->name('activeUser');
+
+    Route::resource('categories', CategoryController::class);
 });

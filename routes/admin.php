@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,6 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::patch('{user}/active-user', [ManageUserController::class, 'activeUser'])->name('activeUser');
 
     Route::resource('categories', CategoryController::class);
+    
+    Route::resource('products', ProductController::class);
 });

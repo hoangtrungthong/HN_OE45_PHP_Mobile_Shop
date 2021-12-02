@@ -24,7 +24,7 @@
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
         <!-- Page Heading -->
-        <header class="bg-white shadow flex gap-20">
+        <div class="bg-gray-200 shadow flex gap-20">
             <div class="max-w-7xl">
                 @include('layouts.navigation')
             </div>
@@ -32,7 +32,7 @@
             <main class="mr-20 w-full">
                 {{ $slot }}
             </main>
-        </header>
+        </div>
     </div>
 </body>
 

@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Models\Category;
 use App\Models\ProductAttribute;
 use App\Models\ProductImage;
+use App\Models\Color;
+use App\Models\Memory;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -39,7 +44,18 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $colors = Color::all();
+        $memories = Memory::all();
+
+        return view(
+            'admin.products.create',
+            compact([
+                'categories',
+                'colors',
+                'memories',
+            ])
+        );
     }
 
     /**
@@ -48,9 +64,48 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $data = $request->only(['category_id', 'name', 'content', 'specifications']);
+            $data['slug'] = Str::slug($request->name);
+            $color = $request->color_id;
+            $memory = $request->memory_id;
+            $price = $request->price;
+            $product = Product::create($data);
+            if (!$product) {
+                return redirect()->back()->withErrors('error');
+            }
+
+            foreach ($request->quantity as $key => $item) {
+                ProductAttribute::create([
+                    'product_id' => $product->id,
+                    'quantity' => $item,
+                    'color_id' => $color[$key],
+                    'memory_id' => $memory[$key],
+                    'price' => $price[$key],
+                ]);
+            };
+
+            foreach ($request->files as $files) {
+                foreach ($files as $file) {
+                    $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'path' => $img,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('admin.products.index')->withSuccess('Success');
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e);
+        }
     }
 
     /**
@@ -68,7 +123,7 @@ class ProductController extends Controller
         ])
             ->where('product_id', $product->id)
             ->get();
-           
+
         $img = ProductImage::where('product_id', $product->id)->get();
 
         return view('admin.products.details', compact(['product', 'attr', 'img']));
@@ -111,7 +166,7 @@ class ProductController extends Controller
             $product->delete();
             $product->productAttributes()->delete();
             $product->productImages()->delete();
-            
+
             DB::commit();
 
             return redirect()->route('admin.products.index');

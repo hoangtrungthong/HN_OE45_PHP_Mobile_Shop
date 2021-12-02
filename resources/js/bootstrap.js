@@ -1,5 +1,6 @@
 window._ = require('lodash');
 require('@fortawesome/fontawesome-free/js/all.js');
+window.$ = require('jquery');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

@@ -15,5 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'role:user'], function () {
-    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+
+    Route::get('{user}/edit-profile', [ProfileController::class, 'edit'])->name('edit');
+    Route::patch('{user}/update', [ProfileController::class, 'update'])->name('update');
+    
+    Route::get('{user}/edit-password', [ProfileController::class, 'editPassword'])->name('editPassword');
+    Route::patch('{user}/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
+
+    Route::get('profile-picture', [ProfileController::class, 'changePicture'])->name('picture');
+    Route::post('update-profile-picture', [ProfileController::class, 'upload'])->name('upload');
 });

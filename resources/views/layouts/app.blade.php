@@ -20,19 +20,16 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
-
         <!-- Page Heading -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto">
-                {{ $header }}
+        <header class="bg-white shadow flex gap-20">
+            <div class="max-w-7xl">
+                @include('layouts.navigation')
             </div>
+            <!-- Page Content -->
+            <main class="mr-20 w-full">
+                {{ $slot }}
+            </main>
         </header>
-
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
     </div>
 </body>
 

@@ -14,13 +14,24 @@ class ProductAttribute extends Model
 
     protected $fillable = [
         'product_id',
-        'color',
-        'ram',
+        'color_id',
+        'memory_id',
         'price',
+        'quantity',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function colors()
+    {
+        return $this->hasMany(Color::class);
+    }
+
+    public function memories()
+    {
+        return $this->hasMany(Memory::class);
     }
 }

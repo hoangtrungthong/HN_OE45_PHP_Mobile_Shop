@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'role:user'], function () {
+Route::group(['middleware' => ['role:user','locale'] ], function () {
+    Route::get('language/{language}', [HomeController::class, 'changeLang'])->name('lang');
+
     Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 
     Route::get('{user}/edit-profile', [ProfileController::class, 'edit'])->name('edit');
     Route::patch('{user}/update', [ProfileController::class, 'update'])->name('update');
-    
+
     Route::get('{user}/edit-password', [ProfileController::class, 'editPassword'])->name('editPassword');
     Route::patch('{user}/change-password', [ProfileController::class, 'changePassword'])->name('changePassword');
 

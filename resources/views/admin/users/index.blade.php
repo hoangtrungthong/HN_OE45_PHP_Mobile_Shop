@@ -14,11 +14,11 @@
                                         @endif">
                                 @if ($user->is_block === config('const.active'))
                                     <p class="text-green-800 font-black rounded-b-full text-center">
-                                        {{ __('Active') }}
+                                        {{ __('user.active') }}
                                     </p>
                                 @else
                                     <p class="text-red-800 font-black rounded-b-full text-center">
-                                        {{ __('Block') }}
+                                        {{ __('user.block') }}
                                     </p>
                                 @endif
                                 </p>
@@ -37,14 +37,14 @@
                                         @method('PATCH')
                                         @csrf
                                         <button type="submit"
-                                            class="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-2 focus:outline-none">{{ __('Block') }}</button>
+                                            class="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-2 focus:outline-none">{{ __('user.block') }}</button>
                                     </form>
                                 @else
                                     <form action="{{ route('admin.activeUser', ['user' => $user]) }}" method="post">
                                         @method('PATCH')
                                         @csrf
                                         <button type="submit"
-                                            class="bg-green-500 text-gray-100 rounded hover:bg-green-400 px-2 focus:outline-none">{{ __('Active') }}</button>
+                                            class="bg-green-500 text-gray-100 rounded hover:bg-green-400 px-2 focus:outline-none">{{ __('user.active') }}</button>
                                     </form>
                                 @endif
                             </div>

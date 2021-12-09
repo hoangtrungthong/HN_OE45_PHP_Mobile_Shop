@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['middleware' => 'role:admin'], function () {
+Route::group(['middleware' => ['role:admin','locale'] ], function () {
+    Route::get('language/{language}', [HomeController::class, 'changeLang'])->name('lang');
+
     Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::get('manage-user', [ManageUserController::class, 'index'])->name('manageUser');
@@ -24,6 +27,6 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::patch('{user}/active-user', [ManageUserController::class, 'activeUser'])->name('activeUser');
 
     Route::resource('categories', CategoryController::class);
-    
+
     Route::resource('products', ProductController::class);
 });

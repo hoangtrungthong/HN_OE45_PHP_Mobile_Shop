@@ -2,7 +2,7 @@
     <x-slot name="slot">
         <div class="mt-14">
             <a href="{{ route('admin.categories.create') }}" class="bg-purple-500 hover:bg-purple-700 text-white text-center py-2 px-4 rounded">
-                {{ __('New') }}
+                {{ __('common.new') }}
                 <i class="fas fa-plus-circle"></i>
             </a>
         </div>
@@ -17,10 +17,10 @@
                                         {{ __('#') }}
                                     </th>
                                     <th scope="col" class="text-center px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        {{ __('Name') }}
+                                        {{ __('common.name') }}
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
-                                        <span class="sr-only">{{ __('Edit') }}</span>
+                                        <span class="sr-only">{{ __('common.edit') }}</span>
                                     </th>
                                 </tr>
                             </thead>

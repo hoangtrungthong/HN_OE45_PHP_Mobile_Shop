@@ -1,6 +1,10 @@
-<nav x-data="{ open: false }" class="border-b border-gray-100">
-    <div class="flex flex-col w-64 h-screen px-4 py-8 bg-indigo-600 border-r dark:bg-gray-800 dark:border-gray-600">
-        <h2 class="uppercase text-center text-3xl font-semibold text-gray-200 dark:text-white">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+    <div class="flex flex-col w-64 h-screen px-4 py-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600">
+         <div class="uppercase position-absolute top-0 left-0 font-semibold text-gray-800 dark:text-white">
+            <a class="hover:underline text-gray-600" href="{!! route('admin.lang', ['vi']) !!}">{{ __('vi') }} |</a>
+            <a class="hover:underline text-gray-600" href="{!! route('admin.lang', ['en']) !!}">{{ __('en') }}</a>
+        </div>
+        <h2 class="uppercase text-center text-3xl font-semibold text-gray-800 dark:text-white">
             {{ Auth::user()->name }}
         </h2>
         <div class="relative mt-6">
@@ -18,17 +22,17 @@
         <div class="flex flex-col justify-between flex-1 mt-6">
             <nav>
                 <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                    {{ __('Dashboard') }}
+                    {{ __('common.dashboard') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.manageUser')"
                     :active="request()->routeIs('admin.manageUser')">
-                    {{ __('Users') }}
+                    {{ __('common.users') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs(['admin.categories.index','admin.categories.create','admin.categories.edit'])">
-                    {{ __('Category') }}
+                    {{ __('common.category') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs(['admin.products.index', 'admin.products.create', 'admin.products.edit', 'admin.products.details'])">
-                    {{ __('Products') }}
+                    {{ __('common.products') }}
                 </x-responsive-nav-link>
                 <hr class="my-6 dark:border-gray-600" />
             </nav>

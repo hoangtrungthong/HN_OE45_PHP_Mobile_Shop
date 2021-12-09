@@ -20,8 +20,10 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
-        <div class="font-sans text-gray-900 antialiased">
+        <div class="leading-normal tracking-normal text-white gradient overflow-hidden">
+            @include('layouts.home-header')
             {{ $slot }}
+            @include('layouts.home-footer')
         </div>
     </body>
 </html>

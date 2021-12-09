@@ -27,11 +27,11 @@ class ProductAttribute extends Model
 
     public function colors()
     {
-        return $this->hasMany(Color::class);
+        return $this->hasMany(Color::class, 'id', 'color_id');
     }
 
     public function memories()
     {
-        return $this->hasMany(Memory::class);
+        return $this->hasMany(Memory::class, 'id', 'memory_id');
     }
 }

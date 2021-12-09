@@ -17,7 +17,7 @@ return [
     'name' => 'Name',
     'content' => 'Content',
     'specifications' => 'Specifications',
-    'dashboard' => 'dashboard',
+    'dashboard' => 'Dashboard',
     'home' => 'Home',
     'users' => 'Users',
     'logout' => 'Log Out',
@@ -29,4 +29,6 @@ return [
     'address' => 'Address',
     'phone' => 'Phone',
     'confirm_password' => 'Confirm Password',
+    'time' => 'Time',
+    'empty' => 'Empty!',
 ];

@@ -10,11 +10,8 @@ use App\Models\Memory;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\Product\StoreProductRequest;
-use App\Models\Category;
 use App\Models\ProductAttribute;
 use App\Models\ProductImage;
-use App\Models\Color;
-use App\Models\Memory;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -78,6 +75,7 @@ class ProductController extends Controller
             $color = $request->color_id;
             $memory = $request->memory_id;
             $price = $request->price;
+            
             $product = Product::create($data);
             if (!$product) {
                 return redirect()->back()->withErrors('error');

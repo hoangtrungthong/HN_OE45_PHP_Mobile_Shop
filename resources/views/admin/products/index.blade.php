@@ -13,22 +13,22 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('#') }}
                                     </th>
-                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('common.image') }}
                                     </th>
-                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('common.name') }}
                                     </th>
-                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('common.category') }}
                                     </th>
-                                    <th scope="col" class=" px-6  py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6  py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('common.quantity') }}
                                     </th>
-                                    <th scope="col" class=" px-6  py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th scope="col" class=" px-6  py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                                         {{ __('common.time') }}
                                     </th>
                                     <th scope="col" class="relative px-6 py-3">
@@ -49,7 +49,7 @@
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <img src="{{ asset($product->productImages[0]->path ?? '') }}" alt="Image">
+                                                <img src="{{ Storage::url($product->productImages[0]->path ?? '') }}" alt="Image">
                                             </div>
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
@@ -67,12 +67,12 @@
                                             </div>
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500">
+                                            <div class="text-sm text-gray-900">
                                                 {{ $product->productAttributes->sum('quantity') }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-3 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500">
+                                            <div class="text-sm text-gray-900">
                                                 {{ $product->created_at }}
                                             </div>
                                         </td>
@@ -96,7 +96,7 @@
                                 @endforeach
                                 @else
                                 <tr>
-                                    <td class="text-center px-6 py-3 text-sm font-medium text-gray-500 whitespace-nowrap" colspan="7">
+                                    <td class="text-center px-6 py-3 text-sm font-medium text-gray-600 whitespace-nowrap" colspan="7">
                                         {{ __('common.empty') }}
                                     </td>
                                 </tr>

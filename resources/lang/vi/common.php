@@ -29,4 +29,6 @@ return [
     'address' => 'Địa chỉ',
     'phone' => 'Số điện thoại',
     'confirm_password' => 'Xác nhận mật khẩu',
+    'time' => 'Thời gian',
+    'empty' => 'Trống!',
 ];

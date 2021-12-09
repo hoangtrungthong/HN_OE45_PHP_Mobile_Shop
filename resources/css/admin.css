@@ -54,3 +54,7 @@ input[type="file"] {
     background: white;
     color: black;
 }
+
+img {
+    border-radius: 2.5rem;
+}

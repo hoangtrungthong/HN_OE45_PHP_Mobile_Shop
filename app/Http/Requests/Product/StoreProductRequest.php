@@ -36,20 +36,20 @@ class StoreProductRequest extends FormRequest
                 'numeric',
                 'exists:categories,id',
             ],
-            'color_id' => [
+            'color_id.*' => [
                 'required',
                 'exists:colors,id',
             ],
-            'memory_id' => [
+            'memory_id.*' => [
                 'required',
                 'exists:memories,id',
             ],
-            'quantity' => [
+            'quantity.*' => [
                 'required',
                 'min:1',
                 'max:50',
             ],
-            'price' => [
+            'price.*' => [
                 'required',
                 'min:1',
                 'max:50',
@@ -66,8 +66,9 @@ class StoreProductRequest extends FormRequest
                 'min:50',
                 'max:4000',
             ],
-            'files' => [
+            'files.*' => [
                 'required',
+                'image',
                 'mimes:jpg,jpeg,png,JPG,JPEG,PNG',
                 'max:5120',
             ],

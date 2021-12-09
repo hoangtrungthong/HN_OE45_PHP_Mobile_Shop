@@ -124,7 +124,7 @@
                                     class="block text-sm font-medium text-gray-700">{{ __('common.image') }}</label>
                                 <input type="file" id="image" name="files[]" multiple />
                                 @foreach ($product->productImages as $item)
-                                    <img src="{{ asset($item->path) }}" class="inline-flex w-28 h-28" alt=""
+                                    <img src="{{ Storage::url($item->path) }}" class="inline-flex w-28 h-28" alt=""
                                         srcset="">
                                 @endforeach
                                 @error('files')
@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <div class="px-4 py-3 flex justify-between bg-gray-50 text-right sm:px-6">
-                        <a href="#"
+                        <a href="{{ route('admin.products.index') }}"
                             class="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <i class="fas fa-arrow-circle-left"></i>
                             {{ __('common.back') }}
@@ -149,4 +149,10 @@
             </form>
         </div>
     </x-slot>
+    @section('js')
+        <script type="text/javascript">
+            window.colors = {!! $colors !!};
+            window.memories = {!! $memories !!};
+        </script>
+    @endsection
 </x-app-layout>

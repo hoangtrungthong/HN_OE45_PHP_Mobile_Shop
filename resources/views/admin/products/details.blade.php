@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="slot">
-        <div class="md:flex md:items-center mt-12 shadow-2xl bg-white rounded-xl p-6">
+        <div class="md:flex md:items-center mt-12 shadow-2xl bg-gray-200 rounded-xl p-6">
             <div class="flex justify-between flex-wrap gap-28 w-full">
                 <div class="max-w-full">
                     <div class="grid grid-cols-4">
                         @foreach ($img as $item)
-                            <img class="col-span-2 max-w-full h-60 p-6 rounded-md object-cover max-w-lg mx-auto"
-                                src="{{ asset($item->path) }}" alt="Image">
+                            <img class="col-span-2 max-w-full h-60 p-6 object-cover max-w-lg mx-auto"
+                                src="{{ Storage::url($item->path) ?? ''}}" alt="Image">
                         @endforeach
                     </div>
                     <hr class="my-3">
@@ -59,5 +59,8 @@
         <a href="{{ route('admin.products.index') }}" class="inline-block bg-indigo-500 hover:bg-indigo-700 text-white text-center py-2 px-4 my-9 rounded">&laquo;
             {{ __('common.back') }}
         </a>
+        <div>
+
+        </div>
     </x-slot>
 </x-app-layout>

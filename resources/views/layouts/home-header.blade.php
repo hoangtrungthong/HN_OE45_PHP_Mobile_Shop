@@ -19,10 +19,10 @@
         <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20"
             id="nav-content">
             <div class="list-reset lg:flex justify-end flex-1 items-center">
-                <x-home-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                <x-home-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('common.home') }}
                 </x-home-nav-link>
-                <x-home-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                <x-home-nav-link :href="route('user.products.index')" :active="request()->routeIs('admin.dashboard')">
                     {{ __('common.product') }}
                 </x-home-nav-link>
                 @if (Route::has('login'))
@@ -36,7 +36,7 @@
                                     method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" href="{{ route('logout') }}">
-                                        {{ __('comon.logout') }} &raquo;
+                                        {{ __('common.logout') }} &raquo;
                                     </button>
                                 </form>
                                 <a class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"

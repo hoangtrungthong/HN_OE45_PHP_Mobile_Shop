@@ -1,5 +1,6 @@
 require('./bootstrap');
 require('./preview');
+require('./append');
 
 import Alpine from 'alpinejs';
 

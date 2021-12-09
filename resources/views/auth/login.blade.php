@@ -11,7 +11,7 @@
 
             <!-- Email Address -->
             <div>
-                <x-label for="email" :value="__('Email')" />
+                <x-label for="email" :value="__('common.email')" />
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
                     autofocus />
@@ -19,7 +19,7 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <x-label for="password" :value="__('common.password')" />
 
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="current-password" />
@@ -28,11 +28,11 @@
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900"
                     href="{{ route('register') }}">
-                    {{ __('Register') }}
+                    {{ __('common.register') }}
                 </a>
 
                 <x-button class="ml-3">
-                    {{ __('Log in') }}
+                    {{ __('common.login') }}
                 </x-button>
             </div>
         </form>

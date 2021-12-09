@@ -17,7 +17,7 @@
             </span>
             <input type="text"
                 class=" w-full py-3 pl-10 pr-4 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                placeholder="Search..." />
+                placeholder="{{ __('common.search') }}" />
         </div>
         <div class="flex flex-col justify-between flex-1 mt-6">
             <nav>
@@ -31,8 +31,8 @@
                 <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs(['admin.categories.index','admin.categories.create','admin.categories.edit'])">
                     {{ __('common.category') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs(['admin.products.index', 'admin.products.create', 'admin.products.edit', 'admin.products.details'])">
-                    {{ __('common.products') }}
+                <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs(['admin.products.index','admin.products.create','admin.products.edit'])">
+                    {{ __('common.product') }}
                 </x-responsive-nav-link>
                 <hr class="my-6 dark:border-gray-600" />
             </nav>
@@ -41,7 +41,7 @@
                     @csrf
                     <button class="bg-gray-300 hover:bg-gray-200 text-gray-600 text-center py-2 px-4 rounded"
                         type="submit" href="{{ route('logout') }}">
-                        {{ __('Log Out') }} &raquo;
+                        {{ __('common.logout') }} &raquo;
                     </button>
                 </form>
             </div>

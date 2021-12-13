@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
 require __DIR__.'/auth.php';
+
+Route::group(['middleware' => 'locale'], function () {
+    Route::get('cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('{product}', [HomeController::class, 'showProduct'])->name('showProduct');
+});

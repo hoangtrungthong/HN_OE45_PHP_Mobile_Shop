@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}"></script>
     </head>
     <body>
         <div class="leading-normal tracking-normal text-white gradient overflow-hidden">
@@ -25,5 +25,6 @@
             {{ $slot }}
             @include('layouts.home-footer')
         </div>
+        @yield('js')
     </body>
 </html>

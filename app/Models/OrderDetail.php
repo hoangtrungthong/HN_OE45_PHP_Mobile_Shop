@@ -15,6 +15,9 @@ class OrderDetail extends Model
     protected $fillable = [
         'product_id',
         'order_id',
+        'color_id',
+        'memory_id',
+        'image',
         'price',
         'quantity',
     ];
@@ -27,5 +30,15 @@ class OrderDetail extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    public function memory()
+    {
+        return $this->belongsTo(Memory::class);
     }
 }

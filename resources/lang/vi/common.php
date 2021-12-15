@@ -33,4 +33,7 @@ return [
     'confirm' => 'Bạn có chắc muốn thanh toán luôn không ?',
     'empty' => 'Giỏ hàng trống. Vui lòng bạn thêm vào giỏ hàng',
     'total' => 'Tổng',
+    'time' => 'Thời gian',
+    'continue' => 'Tiếp tục',
+    'purchase' => 'Lịch sử mua hàng',
 ];

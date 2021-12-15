@@ -4,6 +4,7 @@ use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,8 @@ Route::group(['middleware' => ['role:user','locale'] ], function () {
     Route::post('update-cart/{slug}', [CartController::class, 'update'])->name('updateCart');
     Route::delete('remove-cart', [CartController::class, 'remove'])->name('removeCart');
     Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
+
+    Route::post('order', [OrderController::class, 'store'])->name('order');
+    Route::get('history-order', [OrderController::class, 'getOrderUser'])->name('historyOrder');
+    Route::delete('destroy-order/{order}', [OrderController::class, 'destroy'])->name('destroyOrder');
 });

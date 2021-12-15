@@ -8,9 +8,9 @@
                             <div class="w-24 h-24 lg:w-12 lg:h-12 image-fit lg:mr-1 mb-4">
                                 <img class="rounded-full"
                                     src="@if ($user->image)
-                                            {{ asset($user->image) }}
+                                            {{ Storage::url($user->image) }}
                                         @else
-                                            {{ asset('images/users/avatar_default.png') }}
+                                            {{ asset('images/avatar_default.png') }}
                                         @endif">
                                 @if ($user->is_block === config('const.active'))
                                     <p class="text-green-800 font-black rounded-b-full text-center">

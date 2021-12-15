@@ -102,7 +102,8 @@ class CartController extends Controller
     public function checkout()
     {
         $cart = Session::get('cart');
+        $user = Auth::user();
 
-        return view('user.checkout', compact('cart'));
+        return view('user.checkout', compact('cart', 'user'));
     }
 }

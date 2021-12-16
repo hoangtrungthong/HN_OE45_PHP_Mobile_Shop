@@ -6,7 +6,7 @@
                     <div class="grid grid-cols-4">
                         @foreach ($img as $item)
                             <img class="col-span-2 max-w-full h-60 p-6 rounded-md object-cover max-w-lg mx-auto"
-                                src="{{ asset($item->path) }}" alt="Image">
+                                src="{{ Storage::url($item->path) }}" alt="Image">
                         @endforeach
                     </div>
                     <hr class="my-3">

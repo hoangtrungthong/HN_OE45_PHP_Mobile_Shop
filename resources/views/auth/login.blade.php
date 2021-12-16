@@ -13,7 +13,7 @@
             <div>
                 <x-label for="email" :value="__('common.email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                <x-input id="email" class="block mt-1 w-full text-black" type="email" name="email" :value="old('email')" required
                     autofocus />
             </div>
 
@@ -21,7 +21,7 @@
             <div class="mt-4">
                 <x-label for="password" :value="__('common.password')" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                <x-input id="password" class="block mt-1 w-full text-black" type="password" name="password" required
                     autocomplete="current-password" />
             </div>
 

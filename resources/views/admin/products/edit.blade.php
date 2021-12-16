@@ -124,7 +124,7 @@
                                     class="block text-sm font-medium text-gray-700">{{ __('common.image') }}</label>
                                 <input type="file" id="image" name="files[]" multiple />
                                 @foreach ($product->productImages as $item)
-                                    <img src="{{ asset($item->path) }}" class="inline-flex w-28 h-28" alt=""
+                                    <img src="{{ Storage::url($item->path) }}" class="inline-flex w-28 h-28" alt=""
                                         srcset="">
                                 @endforeach
                                 @error('files')

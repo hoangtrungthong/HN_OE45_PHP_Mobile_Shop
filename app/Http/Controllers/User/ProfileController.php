@@ -53,17 +53,10 @@ class ProfileController extends Controller
 
     public function upload(UploadFileRequest $request)
     {
-        if ($request->hasFile('image')) {
-            if (!is_dir(config('path.USER_UPLOAD_PATH'))) {
-                mkdir(config('path.USER_UPLOAD_PATH'), 0777, true);
-            }
-            $name = uniqid() . '-' . $request->file('image')->getClientOriginalName();
-            $path = $request->file('image')->move(config('path.USER_UPLOAD_PATH'), $name);
-            auth()->user()->update(['image' => $path->getPathname()]);
+        $img = uploadFile('image', config('path.USER_UPLOAD_PATH'), $request, $request->image);
 
-            return redirect()->route('user.profile');
-        }
+        auth()->user()->update(['image' => $img]);
 
-        return redirect()->route('user.picture');
+        return redirect()->route('user.profile');
     }
 }

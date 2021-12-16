@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,9 @@ Route::group(['middleware' => ['role:user','locale'] ], function () {
 
     Route::get('profile-picture', [ProfileController::class, 'changePicture'])->name('picture');
     Route::post('update-profile-picture', [ProfileController::class, 'upload'])->name('upload');
+
+    Route::post('add-to-cart/{slug}', [CartController::class, 'add'])->name('addCart');
+    Route::post('update-cart/{slug}', [CartController::class, 'update'])->name('updateCart');
+    Route::delete('remove-cart', [CartController::class, 'remove'])->name('removeCart');
+    Route::get('checkout', [CartController::class, 'checkout'])->name('checkout');
 });

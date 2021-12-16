@@ -29,4 +29,8 @@ return [
     'address' => 'Địa chỉ',
     'phone' => 'Số điện thoại',
     'confirm_password' => 'Xác nhận mật khẩu',
+    'checkout'=> 'Thanh toán',
+    'confirm' => 'Bạn có chắc muốn thanh toán luôn không ?',
+    'empty' => 'Giỏ hàng trống. Vui lòng bạn thêm vào giỏ hàng',
+    'total' => 'Tổng',
 ];

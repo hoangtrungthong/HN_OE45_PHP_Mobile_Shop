@@ -29,4 +29,8 @@ return [
     'address' => 'Address',
     'phone' => 'Phone',
     'confirm_password' => 'Confirm Password',
+    'checkout'=> 'Check out',
+    'confirm' => 'Are you sure you want to pay?',
+    'empty' => 'Cart is empty',
+    'total' => 'Total',
 ];

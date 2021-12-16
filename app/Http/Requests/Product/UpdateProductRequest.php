@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -29,27 +33,27 @@ class UpdateProductRequest extends FormRequest
                 'string',
                 'min:5',
                 'max:255',
-                'unique:products',
+                Rule::unique('products')->ignore($this->product),
             ],
             'category_id' => [
                 'required',
                 'numeric',
                 'exists:categories,id',
             ],
-            'color_id' => [
+            'color_id.*' => [
                 'required',
                 'exists:colors,id',
             ],
-            'memory_id' => [
+            'memory_id.*' => [
                 'required',
                 'exists:memories,id',
             ],
-            'quantity' => [
+            'quantity.*' => [
                 'required',
                 'min:1',
                 'max:50',
             ],
-            'price' => [
+            'price.*' => [
                 'required',
                 'min:1',
                 'max:50',
@@ -66,7 +70,7 @@ class UpdateProductRequest extends FormRequest
                 'min:50',
                 'max:4000',
             ],
-            'files' => [
+            'files.*' => [
                 'required',
                 'mimes:jpg,jpeg,png,JPG,JPEG,PNG',
                 'max:5120',

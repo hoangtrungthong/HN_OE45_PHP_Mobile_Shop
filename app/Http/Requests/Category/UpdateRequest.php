@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class UpdateRequest extends FormRequest
 {
@@ -22,15 +25,18 @@ class UpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
+        $slug = Str::slug($request->name);
+        $category = Category::whereSlug($slug)->first();
+
         return [
             'name' => [
                 'required',
                 'string',
                 'min:5',
                 'max:255',
-                Rule::unique('categories')->ignore($this->get('name')),
+                Rule::unique('categories')->ignore($category),
             ],
             'parent' => [
                 'required',

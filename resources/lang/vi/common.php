@@ -50,6 +50,7 @@ return [
     'ship_to' => 'Gửi đến',
     'ratings' => 'Đánh giá',
     'comment' => 'Bình luận',
+    'not_ratings' => 'Chưa có đánh giá!',
     'wait' => 'Đang chờ shop xác nhận',
     'fail_quantity' => 'Vượt quá số lượng sản phẩm',
     'fail_order' => 'Hiện sản phẩm đã hết màu hoặc bộ nhớ mà bạn đã chọn.Vui lòng chọn lại!',

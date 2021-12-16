@@ -183,7 +183,7 @@ class ProductController extends Controller
                 $ids = $product->productAttributes->pluck('id')->toArray();
                 $product->productAttributes()
                     ->where('id', $ids[$key])
-                    ->updateOrCreate([
+                    ->update([
                         'quantity' => $item,
                         'color_id' => $request->color_id[$key],
                         'memory_id' => $request->memory_id[$key],

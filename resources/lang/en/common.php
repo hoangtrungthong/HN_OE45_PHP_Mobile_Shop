@@ -36,4 +36,9 @@ return [
     'time' => 'Time',
     'continue' => 'Continue',
     'purchase' => 'Purchase history',
+    'updateProfile' => 'Update profile picture',
+    'changPass' => 'Change password',
+    'cancel' => 'Cancel',
+    'profile' => "Profile",
+    'suggest' => 'Suggest'
 ];

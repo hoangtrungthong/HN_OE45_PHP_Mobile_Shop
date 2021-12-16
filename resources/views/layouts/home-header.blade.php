@@ -35,7 +35,7 @@
                             Hi, {{ Auth::user()->name }}
                             <div class="sub-user absolute w-full top-full">
                                 <a class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                                    href="{{ route('user.profile') }}">{{ __('Profile') }}</a>
+                                href="{{ route('user.profile') }}">{{ __('common.profile') }}</a>
                                 <x-home-nav-link :href="route('user.historyOrder')" :active="request()->routeIs('user.historyOrder')">
                                     {{ __('common.purchase') }}
                                 </x-home-nav-link>

@@ -41,4 +41,8 @@ return [
     'cancel' => 'Hủy',
     'profile' => 'Thông tin bản thân',
     'suggest' => 'Đề xuất',
+    'order' =>'Đơn hàng',
+    'customer' => 'Khách hàng',
+    'order_date' => 'Ngày Tạo',
+    'order_id' => 'ID đơn hàng',
 ];

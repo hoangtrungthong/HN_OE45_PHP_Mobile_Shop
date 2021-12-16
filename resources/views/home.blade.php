@@ -82,7 +82,7 @@
             <div class="suggest container mx-auto px-16 phone relative">
                 <div class="container mx-auto pt-4 ">
                     <h1 class="text-3xl pl-4 w-1/4 rounded-tr-3xl font-bold leading-tight text-gray-800 gradient">
-                        Gợi ý hôm nay
+                        {{ __('common.suggest') }}
                     </h1>
                 </div>
                 <div class="swiper-button-prev"></div>
@@ -101,9 +101,6 @@
                                 <div class="price mt-3">
                                     <p>{{ $product->productAttributes[0]->price . '$' }}</p>
                                 </div>
-                                {{-- <a id="cart" href="">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </a> --}}
                                 <div>
                                     <span class="sale">-5%</span>
                                     <div class="ico">
@@ -115,7 +112,7 @@
                 </div>
             </div>
         </section>
-        <section class="bg-gray-100">
+        <section class="bg-white">
             <div class="px-16 ">
                 @foreach ($categories as $category)
                     <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -159,7 +156,7 @@
                 @endforeach
             </div>
         </section>
-        <section class="bg-gray-100">
+        <section class="bg-white pt-3">
             <div class="news container mx-auto px-16 suggest text-black">
                 <div class="border-b-2 border-pink-500">
                     <h2 class="text-3xl pl-4 w-1/4 rounded-tr-3xl font-bold leading-tight text-gray-800 gradient">

@@ -36,4 +36,9 @@ return [
     'time' => 'Thời gian',
     'continue' => 'Tiếp tục',
     'purchase' => 'Lịch sử mua hàng',
+    'updateProfile' => 'Cập nhật ảnh đại diện',
+    'changPass' => 'Đổi mật khẩu',
+    'cancel' => 'Hủy',
+    'profile' => 'Thông tin bản thân',
+    'suggest' => 'Đề xuất',
 ];

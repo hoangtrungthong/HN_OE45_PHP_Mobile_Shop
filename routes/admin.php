@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,7 @@ Route::group(['middleware' => ['role:admin','locale'] ], function () {
     Route::resource('categories', CategoryController::class);
 
     Route::resource('products', ProductController::class);
+
+    Route::resource('orders', OrderController::class)->only(['index', 'show']);
+    Route::get('order-details/{id}', [OrderController::class, 'show'])->name('orderDetails');
 });

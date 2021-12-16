@@ -40,5 +40,9 @@ return [
     'changPass' => 'Change password',
     'cancel' => 'Cancel',
     'profile' => "Profile",
-    'suggest' => 'Suggest'
+    'suggest' => 'Suggest',
+    'order' => 'Orders',
+    'customer' => 'Customer',
+    'order_date' => 'Order date',
+    'order_id' => 'Order ID',
 ];

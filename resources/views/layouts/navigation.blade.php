@@ -34,6 +34,9 @@
                 <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs(['admin.products.index','admin.products.create','admin.products.edit'])">
                     {{ __('common.product') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
+                    {{ __('common.order') }}
+                </x-responsive-nav-link>
                 <hr class="my-6 dark:border-gray-600" />
             </nav>
             <div class="text-center">

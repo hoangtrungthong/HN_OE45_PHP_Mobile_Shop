@@ -40,38 +40,38 @@
                                 @if (count($products))
                                 @foreach ($products as $product)
                                     <tr>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="text-sm font-medium text-gray-900">
                                                     {{ $num++ }}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <img src="{{ asset($product->productImages[0]->path ?? '') }}" alt="Image">
+                                                <img src="{{ Storage::url($product->productImages[0]->path ?? '') }}" alt="Image">
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div class="text-sm font-medium text-gray-900">
                                                     {{ $product->name }}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <p class="px-4 py-1 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded transition duration-150 ease-in-out">
                                                     {{ $product->category->name ?? ''}}
                                                 </p>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="text-sm text-gray-500">
                                                 {{ $product->productAttributes->sum('quantity') }}
                                             </div>
                                         </td>
-                                        <td class="px-6 py-3 whitespace-nowrap">
+                                        <td class="p-3 text-center whitespace-nowrap">
                                             <div class="text-sm text-gray-500">
                                                 {{ $product->created_at }}
                                             </div>

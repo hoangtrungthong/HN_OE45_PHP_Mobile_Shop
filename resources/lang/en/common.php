@@ -33,4 +33,7 @@ return [
     'confirm' => 'Are you sure you want to pay?',
     'empty' => 'Cart is empty',
     'total' => 'Total',
+    'time' => 'Time',
+    'continue' => 'Continue',
+    'purchase' => 'Purchase history',
 ];

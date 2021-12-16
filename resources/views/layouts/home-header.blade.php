@@ -22,9 +22,6 @@
                 <x-home-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('common.home') }}
                 </x-home-nav-link>
-                {{-- <x-home-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                    {{ __('common.product') }}
-                </x-home-nav-link> --}}
                 <x-home-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
                     <i class="fas fa-shopping-cart"></i>
                     @if(session('cart'))
@@ -37,6 +34,11 @@
                             class="user relative cursor-pointer block mr-3 text-white font-bold inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-4 px-4">
                             Hi, {{ Auth::user()->name }}
                             <div class="sub-user absolute w-full top-full">
+                                <a class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
+                                    href="{{ route('user.profile') }}">{{ __('Profile') }}</a>
+                                <x-home-nav-link :href="route('user.historyOrder')" :active="request()->routeIs('user.historyOrder')">
+                                    {{ __('common.purchase') }}
+                                </x-home-nav-link>
                                 <form
                                     class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
                                     method="POST" action="{{ route('logout') }}">
@@ -45,8 +47,6 @@
                                         {{ __('common.logout') }} &raquo;
                                     </button>
                                 </form>
-                                <a class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                                    href="{{ route('user.profile') }}">{{ __('Profile') }}</a>
                             </div>
                         </div>
                     @else

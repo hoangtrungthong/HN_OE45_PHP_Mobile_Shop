@@ -20,4 +20,9 @@ class Color extends Model
     {
         return $this->belongsTo(ProductAttribute::class);
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

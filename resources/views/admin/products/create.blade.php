@@ -12,6 +12,9 @@
                                 </label>
                                 <input type="text" name="name" id="name" autocomplete="given-name"
                                     class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                @error('name')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="col-span-6 sm:col-span-4">
                                 <label for="category"
@@ -22,6 +25,9 @@
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('category_id')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="sm:col-span-8 flex items-end justify-between">
                                 <div class="parent w-full sm:col-span-8">
@@ -44,6 +50,9 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('color_id')
+                                                <p class="text-red-500">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="w-1/5 col-span-6 sm:col-span-3 lg:col-span-2">
                                             <label for="memory"
@@ -56,12 +65,18 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @error('memory_id')
+                                                <p class="text-red-500">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="w-1/5 col-span-6 sm:col-span-3 lg:col-span-2">
                                             <label for="price"
                                                 class="block text-sm font-medium text-gray-700">{{ __('common.price') }}</label>
                                             <input type="text" name="price[]" id="price" autocomplete="postal-code"
                                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                            @error('price')
+                                                <p class="text-red-500">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -78,6 +93,9 @@
                                 <textarea cols="30" rows="5" name="content" id="content"
                                     class="mt-1 block w-full shadow-sm border-gray-300 rounded-md">
                                 </textarea>
+                                @error('content')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="col-span-8 sm:col-span-8">
                                 <label for="specifications"
@@ -85,11 +103,17 @@
                                 <textarea cols="30" rows="5" name="specifications" id="specifications"
                                     class="mt-1 block w-full shadow-sm border-gray-300 rounded-md">
                                 </textarea>
+                                @error('specifications')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="col-span-8 sm:col-span-8">
                                 <label for="files"
                                     class="block text-sm font-medium text-gray-700">{{ __('common.image') }}</label>
                                 <input type="file" id="image" name="files[]" multiple />
+                                @error('files')
+                                    <p class="text-red-500">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>

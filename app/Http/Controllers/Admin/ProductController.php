@@ -193,7 +193,7 @@ class ProductController extends Controller
             foreach ($request->files as $files) {
                 foreach ($files as $file) {
                     $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
-                    $product->productImages()->update([
+                    $product->productImages()->updateOrCreate([
                         'path' => $img,
                     ]);
                 }

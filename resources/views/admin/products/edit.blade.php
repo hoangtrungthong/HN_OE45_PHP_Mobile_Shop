@@ -36,7 +36,7 @@
                             <div class="col-span-8 gap-2 flex items-end justify-between">
                                 <div class="parent sm:col-span-8 w-full">
                                     @foreach ($product->productAttributes as $attr)
-                                        <div class="flex flex-wrap justify-between sm:col-span-8 w-full">
+                                        <div class="flex flex-wrap gap-2 sm:col-span-8 w-full">
                                             <div class="w-1/5 col-span-6 sm:col-span-6 lg:col-span-2">
                                                 <label for="quantity" class="block text-sm font-medium text-gray-700">
                                                     {{ __('common.quantity') }}
@@ -123,10 +123,6 @@
                                 <label for="files"
                                     class="block text-sm font-medium text-gray-700">{{ __('common.image') }}</label>
                                 <input type="file" id="image" name="files[]" multiple />
-                                @foreach ($product->productImages as $item)
-                                    <img src="{{ Storage::url($item->path) }}" class="inline-flex w-28 h-28" alt=""
-                                        srcset="">
-                                @endforeach
                                 @error('files')
                                 <p class="text-red-500">{{ $message }}</p>
                             @enderror
@@ -149,4 +145,10 @@
             </form>
         </div>
     </x-slot>
+    @section('js')
+        <script type="text/javascript">
+            window.colors = {!! $colors !!};
+            window.memories = {!! $memories !!};
+        </script>
+    @endsection
 </x-app-layout>

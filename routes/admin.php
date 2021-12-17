@@ -31,6 +31,8 @@ Route::group(['middleware' => ['role:admin','locale'] ], function () {
 
     Route::resource('products', ProductController::class);
 
-    Route::resource('orders', OrderController::class)->only(['index', 'show']);
+    Route::resource('orders', OrderController::class)->only(['index', 'show', 'destroy']);
     Route::get('order-details/{id}', [OrderController::class, 'show'])->name('orderDetails');
+    Route::patch('approve-order/{id}', [OrderController::class, 'state'])->name('stateOrder');
+    Route::patch('reject-order/{id}', [OrderController::class, 'rejectOrder'])->name('rejectOrder');
 });

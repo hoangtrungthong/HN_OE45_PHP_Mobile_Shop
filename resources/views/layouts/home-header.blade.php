@@ -28,6 +28,9 @@
                         {{ count(session('cart')) }}
                     @endif
                 </x-home-nav-link>
+                <x-home-nav-link :href="route('user.ordersPending')" :active="request()->routeIs('user.ordersPending')">
+                    {{ __('common.order') }}
+                </x-home-nav-link>
                 @if (Route::has('login'))
                     @auth
                         <div

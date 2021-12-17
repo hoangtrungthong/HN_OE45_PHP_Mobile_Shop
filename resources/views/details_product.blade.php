@@ -24,7 +24,8 @@
                             <p class="text-3xl text-gray-900">${{ number_format($item->price) }}</p>
                         @endforeach
 
-                        <form action="{{ route('user.addCart', $product->slug) }}" method="post" class="mt-10">
+                        <form action="{{ route('user.addCart', $product->slug) }}" method="post"
+                            class="mt-10">
                             @csrf
                             <div>
                                 <h3 class="text-sm text-gray-900 font-medium">{{ 'Color' }}</h3>
@@ -35,7 +36,8 @@
                                             @foreach ($items->colors as $color)
                                                 <label
                                                     class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
-                                                    <input type="radio"  name="color" value="{{ $color->id }}" class="absolute form-radio h-5 w-5">
+                                                    <input type="radio" name="color" value="{{ $color->id }}"
+                                                        class="absolute form-radio h-5 w-5">
                                                     <p id="color-0-label" class="sr-only">
                                                         {{ $color->name }}
                                                     </p>
@@ -58,14 +60,14 @@
                                             @foreach ($items->memories as $memory)
                                                 <label for="memory{{ $memory->id }}" class="text-black">
                                                     {{ $memory->rom }}
-                                                    <input type="radio" id="memory{{ $memory->id }}" name="memory" value="{{ $memory->id }}">
+                                                    <input type="radio" id="memory{{ $memory->id }}" name="memory"
+                                                        value="{{ $memory->id }}">
                                                 </label>
                                             @endforeach
                                         @endforeach
                                     </div>
                                 </fieldset>
                             </div>
-
                             <button type="submit"
                                 class="mt-10 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 <i class="fas fa-shopping-cart"></i>
@@ -96,5 +98,10 @@
                 </div>
             </div>
         </div>
+        @if (session()->has('alert'))
+            <script type="text/javascript">
+                alert('{{ session()->get('alert') }}')
+            </script>
+        @endif
     </x-slot>
 </x-guest-layout>

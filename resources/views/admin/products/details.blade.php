@@ -24,26 +24,26 @@
                         for="count">{{ __('common.color') }} </label>
                         <label class="col-span-2 text-gray-700 text-sm underline italic"
                         for="count">{{ __('common.memory') }} </label>
-                        <label class="col-span-2 text-gray-700 text-sm underline italic"
+                        <label class="col-span-2 text-gray-700 text-sm underline italic ml-4"
                         for="count">{{ __('common.price') }}</label>
                         <label class="col-span-2 text-gray-700 text-sm underline italic"
                         for="count">{{ __('common.quantity') }}</label>
                         </div>
-                    <div class="mt-1">
+                    <div class="mt-1 bg-gray-200 p-1 rounded">
                         @foreach ($attr as $item)
                             <div class="grid grid-cols-8 mt-1">
                                 @foreach ($item->colors as $color)
                                 <p style="background-color: {{ $color->name }}"
-                                    class="col-span-2 h-5 w-5 rounded-full mr-2 focus:outline-none">
+                                    class="col-span-2 h-5 w-5 rounded-full ml-4 focus:outline-none">
                                 </p>
                                 @endforeach
                                 @foreach ($item->memories as $memory)
-                                <p class="col-span-2 h-5 w-5 rounded-full mr-2 focus:outline-none">
+                                <p class="col-span-2 h-5 w-5 rounded-full focus:outline-none">
                                     {{ $memory->rom }}
                                 </p>
                                 @endforeach
-                                <p class="col-span-2">{{ $item->price }}</p>
-                                <p class="col-span-2">{{ $item->quantity }}</p>
+                                <p class="col-span-2 ml-2">{{ $item->price }}</p>
+                                <p class="col-span-2 ml-4">{{ $item->quantity }}</p>
                             </div>
                         @endforeach
                     </div>

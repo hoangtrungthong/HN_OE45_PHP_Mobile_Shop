@@ -13,6 +13,7 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\ProductAttribute;
 use App\Models\ProductImage;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -230,5 +231,26 @@ class ProductController extends Controller
             DB::rollback();
             Log::error($e);
         }
+    }
+
+    public function search(Request $request)
+    {
+        $num = config('const.block');
+        $key = Str::slug($request->key);
+
+        $products = Product::WhereHas('productAttributes', function ($query) use ($request) {
+                $query->where('price', 'like', $request->key);
+        })
+            ->orWhere('slug', 'like', '%' . $key . '%')
+            ->orderBy('id', 'desc')
+            ->paginate(config('const.pagination'));
+
+        if (Auth::user()) {
+            if (Auth::user()->role_id == config('const.admin')) {
+                return view('admin.search', compact('products', 'num'));
+            }
+        }
+
+        return view('search', compact('products'));
     }
 }

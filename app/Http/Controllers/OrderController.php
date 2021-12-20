@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Order\StoreRequest;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,20 +15,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        DB::statement("SET SQL_MODE=''");
-        $orders = DB::table('orders')
-            ->select(
-                'orders.id',
-                'orders.phone',
-                'orders.address',
-                'orders.amount',
-                'orders.created_at',
-                'users.name',
-                DB::raw('SUM(amount) as `sum_amount`')
-            )
-            ->join('users', 'users.id', '=', 'orders.user_id')
-            ->groupBy('user_id')
-            ->paginate(config('const.pagination'));
+        $orders = Order::with('user')->orderBy('id', 'desc')->paginate(config('const.pagination'));
 
         return view('admin.orders.index', compact('orders'));
     }
@@ -42,10 +27,24 @@ class OrderController extends Controller
         return view('admin.orders.details', compact('orderDetails'));
     }
 
+    public function getOrderPending()
+    {
+        $user = Auth::user();
+        $orders = Order::with('orderDetails')
+            ->where('user_id', $user->id)
+            ->where('status', '!=', config('const.approve'))
+            ->paginate(config('const.pagination'));
+
+        return view('user.orders', compact('orders'));
+    }
+
     public function getOrderUser()
     {
         $user = Auth::user();
-        $orders = Order::with('orderDetails')->where('user_id', $user->id)->paginate(config('const.pagination'));
+        $orders = Order::with('orderDetails')
+            ->where('user_id', $user->id)
+            ->where('status', config('const.approve'))
+            ->paginate(config('const.pagination'));
 
         return view('user.history_order', compact('orders'));
     }
@@ -57,16 +56,17 @@ class OrderController extends Controller
 
             $cart = Session::get('cart');
             $amount = config('const.active');
-            foreach ($cart as $key => $value) {
+            foreach ($cart as $value) {
                 $amount += $value['price'] * $value['quantity'];
             }
 
             $data = $request->only(['user_id', 'phone', 'address']);
             $data['amount'] = $amount;
+            $data['status'] = config('const.pending');
 
             $order = Order::create($data);
 
-            foreach ($cart as $key => $value) {
+            foreach ($cart as $value) {
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $value['id'],
@@ -86,6 +86,70 @@ class OrderController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
+        }
+    }
+
+    public function state($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $orderDetails = OrderDetail::with(['order', 'product', 'color', 'memory'])
+                ->where('order_id', $id)
+                ->get();
+
+            foreach ($orderDetails as $item) {
+                $productAttr = $item->product->productAttributes
+                    ->where('color_id', $item->color_id)
+                    ->where('memory_id', $item->memory_id)
+                    ->firstOrFail();
+
+                if ($item->quantity > $productAttr->quantity) {
+                    return redirect()->route('admin.orders.index')->with('alert', __('common.fail_quantity'));
+                }
+
+                $remaining = $productAttr->quantity - $item->quantity;
+                $productAttr->update([
+                    'quantity' => $remaining,
+                ]);
+            }
+
+            Order::whereId($id)->update([
+                'status' => config('const.approve'),
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.orders.index');
+        } catch (Exception $ex) {
+            DB::rollBack();
+            Log::error($ex);
+        }
+    }
+
+    public function rejectOrder($id)
+    {
+        Order::whereId($id)->update([
+            'status' => config('const.reject'),
+        ]);
+
+        return redirect()->route('admin.orders.index');
+    }
+
+    public function destroy(Order $order)
+    {
+        try {
+            DB::beginTransaction();
+
+            $order->delete();
+            $order->orderDetails()->delete();
+
+            DB::commit();
+
+            return redirect()->back();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            Log::error($ex);
         }
     }
 }

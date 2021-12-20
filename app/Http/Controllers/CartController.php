@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -17,7 +18,6 @@ class CartController extends Controller
 
     public function add(Request $request, $slug)
     {
-        $user = Auth::user();
         $product = Product::with(['productAttributes', 'productImages'])->whereSlug($slug)->firstOrFail();
         $attr = $product->productAttributes()
             ->with(['colors', 'memories'])
@@ -37,7 +37,13 @@ class CartController extends Controller
                 'quantity' => 1,
                 'image' => $product->productImages[0]->path,
             ];
+
+            if ($cart[$slug . $key]['quantity'] > $attr->quantity) {
+                return redirect()->back()->with('alert', __('common.fail_order'));
+            }
+
             Session::put('cart', $cart);
+
             return redirect()->route('cart');
         }
 
@@ -45,7 +51,12 @@ class CartController extends Controller
             $cart[$slug . $key]['color'] === $request->color &&
             $cart[$slug . $key]['memory'] === $request->memory
         ) {
+            if ($cart[$slug . $key]['quantity'] >= $attr->quantity) {
+                return redirect()->back()->with('alert', __('common.fail_order'));
+            }
+
             $cart[$slug . $key]['quantity']++;
+
             Session::put('cart', $cart);
 
             return redirect()->route('cart');
@@ -60,6 +71,10 @@ class CartController extends Controller
                 'image' => $product->productImages[0]->path,
             ];
 
+            if ($cart[$slug . $key]['quantity'] > $attr->quantity) {
+                return redirect()->back()->with('alert', __('common.fail_order'));
+            }
+
             Session::put('cart', $cart);
         }
 
@@ -68,8 +83,13 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->quantity < config('const.block')) {
-            return redirect()->back();
+        $attr = ProductAttribute::where('product_id', $request->id)
+            ->where('color_id', $request->color)
+            ->where('memory_id', $request->memory)
+            ->firstOrFail();
+
+        if ($request->quantity < config('const.block') || $request->quantity > $attr->quantity) {
+            return redirect()->back()->with('alert', __('common.fail_quantity'));
         }
         if ($request->slug && $request->quantity) {
             $slug = Str::slug($request->slug);

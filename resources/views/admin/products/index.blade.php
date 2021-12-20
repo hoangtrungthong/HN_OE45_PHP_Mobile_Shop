@@ -76,8 +76,7 @@
                                                 {{ $product->created_at }}
                                             </div>
                                         </td>
-                                        <td
-                                            class=" px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
+                                        <td class=" px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
                                             <form action="{{ route('admin.products.destroy', $product->id) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')

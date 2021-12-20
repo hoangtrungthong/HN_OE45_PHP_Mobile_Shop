@@ -17,6 +17,7 @@ class Order extends Model
         'amount',
         'phone',
         'address',
+        'status',
     ];
 
     public function orderDetails()

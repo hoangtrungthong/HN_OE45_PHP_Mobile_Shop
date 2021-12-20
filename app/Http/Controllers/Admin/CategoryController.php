@@ -7,6 +7,10 @@ use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Product;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -113,8 +117,39 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('admin.categories.index');
+            $parentCategory = Category::with('products')->where('id', $category->parent)->first();
+
+            if ($parentCategory) {
+                foreach ($category->childrenCategory as $child) {
+                    $child->update([
+                        'parent' => $parentCategory->parent,
+                    ]);
+                }
+            } else {
+                foreach ($category->childrenCategory as $child) {
+                    $child->update([
+                        'parent' => config('const.active'),
+                    ]);
+                }
+            }
+
+            foreach ($category->products as $product) {
+                $product->productAttributes()->delete();
+                $product->productImages()->delete();
+                $product->delete();
+            }
+
+            $category->delete();
+
+            DB::commit();
+
+            return redirect()->route('admin.categories.index');
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e);
+        }
     }
 }

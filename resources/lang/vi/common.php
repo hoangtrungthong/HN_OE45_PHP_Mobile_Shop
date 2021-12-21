@@ -48,6 +48,8 @@ return [
     'accepted' => 'Đã xác nhận',
     'rejected' => 'Đã hủy',
     'ship_to' => 'Gửi đến',
+    'ratings' => 'Đánh giá',
+    'comment' => 'Bình luận',
     'wait' => 'Đang chờ shop xác nhận',
     'fail_quantity' => 'Vượt quá số lượng sản phẩm',
     'fail_order' => 'Hiện sản phẩm đã hết màu hoặc bộ nhớ mà bạn đã chọn.Vui lòng chọn lại!',

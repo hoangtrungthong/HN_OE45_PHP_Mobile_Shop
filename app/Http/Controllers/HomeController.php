@@ -35,7 +35,25 @@ class HomeController extends Controller
 
     public function showProduct($slug)
     {
-        $product = Product::with('productAttributes')->whereSlug($slug)->firstOrFail();
+        $product = Product::with([
+            'productAttributes',
+            'comments' => function ($query) {
+                $query->with('user')
+                    ->limit(config('const.pagination'))
+                    ->orderBy('id', 'DESC');
+            },
+            'ratings' => function ($query) {
+                $query->with('user');
+            }
+        ])
+            ->whereSlug($slug)
+            ->firstOrFail();
+
+        $star1 = $product->ratings()->whereVote(config('const.one_stars'))->count() * config('const.percent');
+        $star2 = $product->ratings()->whereVote(config('const.two_stars'))->count() * config('const.percent');
+        $star3 = $product->ratings()->whereVote(config('const.three_stars'))->count() * config('const.percent');
+        $star4 = $product->ratings()->whereVote(config('const.four_stars'))->count() * config('const.percent');
+        $star5 = $product->ratings()->whereVote(config('const.five_stars'))->count() * config('const.percent');
 
         $attr = ProductAttribute::with([
             'colors',
@@ -47,6 +65,15 @@ class HomeController extends Controller
 
         $images = ProductImage::where('product_id', $product->id)->get();
 
-        return view('details_product', compact('product', 'attr', 'images'));
+        return view('details_product', compact([
+            'product',
+            'attr',
+            'images',
+            'star1',
+            'star2',
+            'star3',
+            'star4',
+            'star5',
+        ]));
     }
 }

@@ -51,4 +51,6 @@ return [
     'wait' => 'Đang chờ shop xác nhận',
     'fail_quantity' => 'Vượt quá số lượng sản phẩm',
     'fail_order' => 'Hiện sản phẩm đã hết màu hoặc bộ nhớ mà bạn đã chọn.Vui lòng chọn lại!',
+    'fail_search' => 'Không tìm thấy kết quả phù hợp. Vui lòng thử lại!',
+    'found' => 'Đã tìm thấy',
 ];

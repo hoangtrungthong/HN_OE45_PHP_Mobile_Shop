@@ -7,6 +7,22 @@
                 {{ __('Mobile') }}
             </a>
         </div>
+        <div class="ml-36 flex items-center">
+            <form action="{{ route('search') }}" method="get" class="w-80 -mb-6">
+                <input type="text" name="key"
+                class="w-full py-2 pl-10 pr-4 text-black bg-white border border-gray-300 rounded-md focus:outline-none"
+                placeholder="{{ __('common.search') }}" />
+                <button type="submit" class="relative -top-10">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </span>
+                </button>
+            </form>
+        </div>
         <div class="block lg:hidden pr-4">
             <button id="nav-toggle"
                 class="flex items-center p-1 text-pink-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">

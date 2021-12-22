@@ -51,4 +51,6 @@ return [
     'wait' => 'Waiting shop accept',
     'fail_quantity' => 'Exceed the amount product',
     'fail_order' => 'The product is currently out of stock of the color or memory you selected. Please choose again!',
+    'fail_search' => 'No matching results were found. Please try again!',
+    'found' => 'Found',
 ];

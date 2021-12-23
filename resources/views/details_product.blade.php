@@ -12,69 +12,81 @@
                     @endforeach
                 </div>
                 <div class="lg:col-span-2 w-1/4 p-5 ml-28 mt-10 shadow overflow-hidden sm:rounded-md">
-                    <div>
-                        <p class="text-yellow-600">{{ count($product->ratings) . ' ' . __('common.ratings') }} </p>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-yellow-500" for="star5">
-                            5 <i class="fas fa-star"></i>
-                        </p>
-                        <div class="w-3/5 bg-gray-200 h-1">
-                            <div class="bg-yellow-500 h-1" style="width: {{ floor($star5 / count($product->ratings)) }}%">
-                                {{ floor($star5 / count($product->ratings)) }}%</div>
-                        </div>
+                    @if (count($product->ratings))
                         <div>
-                            <p class="text-indigo-400">{{ floor($star5 / count($product->ratings)) }}%</p>
+                            <div>
+                                <p class="text-yellow-600">{{ count($product->ratings) . ' ' . __('common.ratings') }}
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-yellow-500" for="star5">
+                                    5 <i class="fas fa-star"></i>
+                                </p>
+                                <div class="w-3/5 bg-gray-200 h-1">
+                                    <div class="bg-yellow-500 h-1"
+                                        style="width: {{ floor($star5 / count($product->ratings)) }}%">
+                                        {{ floor($star5 / count($product->ratings)) }}%</div>
+                                </div>
+                                <div>
+                                    <p class="text-indigo-400">{{ floor($star5 / count($product->ratings)) }}%</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-yellow-500" for="star5">
+                                    4 <i class="fas fa-star"></i>
+                                </p>
+                                <div class="w-3/5 bg-gray-200 h-1">
+                                    <div class="bg-yellow-500 h-1"
+                                        style="width: {{ floor($star4 / count($product->ratings)) }}%">
+                                        {{ floor($star4 / count($product->ratings)) }}%</div>
+                                </div>
+                                <div>
+                                    <p class="text-indigo-400">{{ floor($star4 / count($product->ratings)) }}%</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-yellow-500" for="star5">
+                                    3 <i class="fas fa-star"></i>
+                                </p>
+                                <div class="w-3/5 bg-gray-200 h-1">
+                                    <div class="bg-yellow-500 h-1"
+                                        style="width: {{ floor($star3 / count($product->ratings)) }}%">
+                                        {{ floor($star3 / count($product->ratings)) }}%</div>
+                                </div>
+                                <div>
+                                    <p class="text-indigo-400">{{ floor($star3 / count($product->ratings)) }}%</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-yellow-500" for="star5">
+                                    2 <i class="fas fa-star"></i>
+                                </p>
+                                <div class="w-3/5 bg-gray-200 h-1">
+                                    <div class="bg-yellow-500 h-1"
+                                        style="width: {{ floor($star2 / count($product->ratings)) }}%">
+                                        {{ floor($star2 / count($product->ratings)) }}%</div>
+                                </div>
+                                <div>
+                                    <p class="text-indigo-400">{{ floor($star2 / count($product->ratings)) }}%</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-yellow-500" for="star5">
+                                    1 <i class="fas fa-star"></i>
+                                </p>
+                                <div class="w-3/5 bg-gray-200 h-1">
+                                    <div class="bg-yellow-500 h-1"
+                                        style="width: {{ floor($star1 / count($product->ratings)) }}%">
+                                        {{ floor($star1 / count($product->ratings)) }}%</div>
+                                </div>
+                                <div>
+                                    <p class="text-indigo-400">{{ floor($star1 / count($product->ratings)) }}%</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-yellow-500" for="star5">
-                            4 <i class="fas fa-star"></i>
-                        </p>
-                        <div class="w-3/5 bg-gray-200 h-1">
-                            <div class="bg-yellow-500 h-1" style="width: {{ floor($star4 / count($product->ratings)) }}%">
-                                {{ floor($star4 / count($product->ratings)) }}%</div>
-                        </div>
-                        <div>
-                            <p class="text-indigo-400">{{ floor($star4 / count($product->ratings)) }}%</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-yellow-500" for="star5">
-                            3 <i class="fas fa-star"></i>
-                        </p>
-                        <div class="w-3/5 bg-gray-200 h-1">
-                            <div class="bg-yellow-500 h-1" style="width: {{ floor($star3 / count($product->ratings)) }}%">
-                                {{ floor($star3 / count($product->ratings)) }}%</div>
-                        </div>
-                        <div>
-                            <p class="text-indigo-400">{{ floor($star3 / count($product->ratings)) }}%</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-yellow-500" for="star5">
-                            2 <i class="fas fa-star"></i>
-                        </p>
-                        <div class="w-3/5 bg-gray-200 h-1">
-                            <div class="bg-yellow-500 h-1" style="width: {{ floor($star2 / count($product->ratings)) }}%">
-                                {{ floor($star2 / count($product->ratings)) }}%</div>
-                        </div>
-                        <div>
-                            <p class="text-indigo-400">{{ floor($star2 / count($product->ratings)) }}%</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <p class="text-yellow-500" for="star5">
-                            1 <i class="fas fa-star"></i>
-                        </p>
-                        <div class="w-3/5 bg-gray-200 h-1">
-                            <div class="bg-yellow-500 h-1" style="width: {{ floor($star1 / count($product->ratings)) }}%">
-                                {{ floor($star1 / count($product->ratings)) }}%</div>
-                        </div>
-                        <div>
-                            <p class="text-indigo-400">{{ floor($star1 / count($product->ratings)) }}%</p>
-                        </div>
-                    </div>
+                    @else
+                        <p class="text-gray-600 capitalize">{{ __('common.not_ratings') }}</p>
+                    @endif
                 </div>
                 <div
                     class="max-w-2xl mx-auto py-10 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
@@ -85,16 +97,18 @@
                     </div>
                     <div class="mt-4 lg:mt-0 lg:row-span-3">
                         <h2 class="sr-only">Product information</h2>
-                        @foreach ($attr as $item)
-                            <p class="text-3xl text-gray-900">${{ number_format($item->price) }}</p>
+                        @php
+                            $price = array_unique($attr->pluck('price')->toArray());
+                        @endphp
+                        @foreach ($price as $p)
+                            <p class="text-3xl text-gray-900">${{ number_format($p) }}</p>
                         @endforeach
 
                         <form action="{{ route('user.addCart', $product->slug) }}" method="post"
                             class="mt-10">
                             @csrf
                             <div>
-                                <h3 class="text-sm text-gray-900 font-medium">{{ 'Color' }}</h3>
-
+                                <h3 class="text-sm text-gray-900 font-medium">{{ __('common.color') }}</h3>
                                 <fieldset class="mt-4">
                                     <div class="flex items-center space-x-3">
                                         @foreach ($attr as $items)
@@ -117,16 +131,19 @@
                             </div>
                             <div class="mt-10">
                                 <div class="flex items-center justify-between">
-                                    <h3 class="text-sm text-gray-900 font-medium">{{ 'Size' }}</h3>
+                                    <h3 class="text-sm text-gray-900 font-medium">{{ __('common.memory') }}</h3>
                                 </div>
                                 <fieldset class="mt-4">
                                     <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
                                         @foreach ($attr as $items)
                                             @foreach ($items->memories as $memory)
-                                                <label for="memory{{ $memory->id }}" class="text-black">
-                                                    {{ $memory->rom }}
-                                                    <input type="radio" id="memory{{ $memory->id }}" name="memory"
-                                                        value="{{ $memory->id }}">
+                                                <label id="memory_id" for="mem{{ $memory->id }}"
+                                                    class="text-black">
+                                                    <p id="mem{{ $memory->id }}">
+                                                        {{ $memory->rom }}
+                                                        <input type="radio" id="memory{{ $memory->id }}"
+                                                            name="memory" value="{{ $memory->id }}">
+                                                    </p>
                                                 </label>
                                             @endforeach
                                         @endforeach
@@ -134,16 +151,15 @@
                                 </fieldset>
                             </div>
                             <button type="submit"
-                                class="mt-10 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                class="gradient mt-10 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 <i class="fas fa-shopping-cart"></i>
                             </button>
                         </form>
                     </div>
-
                     <div
                         class="py-10 lg:pt-6 lg:pb-16 lg:col-start-1 lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                         <div>
-                            <h3 class="sr-only">{{ 'Content' }}</h3>
+                            <h3 class="sr-only">{{ __('common.content') }}</h3>
 
                             <div class="space-y-6">
                                 <p class="text-base text-gray-900">{{ $product->content }}</p>
@@ -151,7 +167,7 @@
                         </div>
 
                         <div class="mt-10">
-                            <h3 class="text-sm font-medium text-gray-900">{{ 'Specifications' }}</h3>
+                            <h3 class="text-sm font-medium text-gray-900">{{ __('common.specifications') }}</h3>
 
                             <div class="mt-4">
                                 <p class="text-gray-400">
@@ -216,7 +232,7 @@
 
                                 <div class="px-4 py-3 text-right sm:px-1">
                                     <button type="submit"
-                                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        class="gradient inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         {{ __('common.comment') }}
                                     </button>
                                 </div>
@@ -231,8 +247,9 @@
                 @foreach ($product->comments as $comment)
                     <div class="mt-10">
                         <div class="flex items-center gap-1">
-                            <img class="h-10 w-10" src="{{ $comment->user->image ? Storage::url($comment->user->image) : asset('images/avatar_default.png') }}" alt=""
-                                srcset="">
+                            <img class="h-10 w-10"
+                                src="{{ $comment->user->image ? Storage::url($comment->user->image) : asset('images/avatar_default.png') }}"
+                                alt="" srcset="">
                             <p>{{ $comment->user->name }}</p>
                         </div>
                         <div class="pl-10 mt-2 text-black">{{ $comment->content }}</div>
@@ -240,6 +257,25 @@
                 @endforeach
             </div>
         </div>
+        <script>
+            {!! $attr !!}.forEach(el => {
+                el.memories.forEach(element => {
+                    $(document).ready(function() {
+                        $("#memory_id").attr('for', function(index, value) {
+                            console.log(this, $("#mem" + element.id), value, 'memory' + element
+                                .id, element);
+                            if (value == 'mem' + element.id) {
+                                $("#mem" + element.id).remove();
+
+                                return $("#memory_id").attr('style', 'display: none');
+                            }
+
+                            return value = 'mem' + element.id
+                        });
+                    });
+                });
+            });
+        </script>
         @if (session()->has('alert'))
             <script type="text/javascript">
                 alert('{{ session()->get('alert') }}')

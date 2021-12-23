@@ -50,6 +50,7 @@ return [
     'ship_to' => 'Ship to',
     'ratings' => 'Ratings',
     'comment' => 'Comment',
+    'not_ratings' => 'There are currently no ratings!',
     'wait' => 'Waiting shop accept',
     'fail_quantity' => 'Exceed the amount product',
     'fail_order' => 'The product is currently out of stock of the color or memory you selected. Please choose again!',

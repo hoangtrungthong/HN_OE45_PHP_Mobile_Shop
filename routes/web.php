@@ -23,4 +23,5 @@ Route::group(['middleware' => 'locale'], function () {
     Route::get('search', [ProductController::class, 'search'])->name('search');
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('{product}', [HomeController::class, 'showProduct'])->name('showProduct');
+    Route::get('category/{slug}', [HomeController::class, 'getProductByCategory'])->name('category');
 });

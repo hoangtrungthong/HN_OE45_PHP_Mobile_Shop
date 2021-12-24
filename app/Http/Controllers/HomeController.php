@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -24,7 +23,11 @@ class HomeController extends Controller
         $products = Product::orderBy('id', 'DESC')
             ->paginate(config('const.pagination'));
 
-        return view('home', compact('products'));
+        $categories = Category::with('childrenCategory')
+            ->whereParent(config('const.active'))
+            ->get();
+
+        return view('home', compact('products', 'categories'));
     }
 
     public function showProduct($slug)
@@ -68,5 +71,16 @@ class HomeController extends Controller
             'star4',
             'star5',
         ]));
+    }
+
+    public function getProductByCategory($slug)
+    {
+        $category = Category::with(['childrenCategory' => function ($query) {
+            $query->with(['products' => function ($q) {
+                $q->with('productAttributes', 'productImages');
+            }]);
+        }])->whereSlug($slug)->firstOrFail();
+
+        return view('category', compact('category'));
     }
 }

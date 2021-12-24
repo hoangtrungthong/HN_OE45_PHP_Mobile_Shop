@@ -1,4 +1,5 @@
-<nav x-data="{ open: false }" id="header" class="fixed w-full z-30 top-0 text-white border-b border-gray-100 border-opacity-25">
+<nav x-data="{ open: false }" id="header"
+    class="fixed w-full z-30 top-0 text-white border-b border-gray-100 border-opacity-25">
     <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0">
         <div class="pl-4 flex items-center">
             <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
@@ -7,17 +8,18 @@
                 {{ __('Mobile') }}
             </a>
         </div>
-        <div class="ml-36 flex items-center">
+        <div class="ml-14 flex items-center">
             <form action="{{ route('search') }}" method="get" class="w-80 -mb-6">
                 <input type="text" name="key"
-                class="w-full py-2 pl-10 pr-4 text-black bg-white border border-gray-300 rounded-md focus:outline-none"
-                placeholder="{{ __('common.search') }}" />
+                    class="w-full py-2 pl-10 pr-4 text-black bg-white border border-gray-300 rounded-md focus:outline-none"
+                    placeholder="{{ __('common.search') }}" />
                 <button type="submit" class="relative -top-10">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                         <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
                             <path
                                 d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            </path>
                         </svg>
                     </span>
                 </button>
@@ -38,9 +40,27 @@
                 <x-home-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('common.home') }}
                 </x-home-nav-link>
+                <div class="group inline-block">
+                    <div
+                        class="cursor-pointer outline-none focus:outline-none pl-3 pr-4 py-4 text-gray-200 rounded-sm flex items-center min-w-32">
+                        <span class="pr-1 font-semibold flex-1">{{ __('common.product') }}</span>
+                        <i
+                            class="fas fa-angle-down fill-current h-4 w-4 transform group-hover:-rotate-180
+                        transition duration-150 ease-in-out"></i>
+                    </div>
+                    <div
+                        class="gradient rounded-sm transform scale-0 group-hover:scale-100 absolute
+                    transition duration-150 ease-in-out origin-top min-w-32">
+                        @foreach ($categories as $category)
+                            <a class="block pl-3 pr-4 py-4 cursor-pointer text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('category', $category->slug) }}">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
                 <x-home-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
                     <i class="fas fa-shopping-cart"></i>
-                    @if(session('cart'))
+                    @if (session('cart'))
                         {{ count(session('cart')) }}
                     @endif
                 </x-home-nav-link>
@@ -52,10 +72,11 @@
                         <div
                             class="user relative cursor-pointer block mr-3 text-white font-bold inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-4 px-4">
                             Hi, {{ Auth::user()->name }}
-                            <div class="sub-user absolute w-full top-full">
+                            <div class="sub-user rounded-md absolute w-full top-full">
                                 <a class="block pl-3 pr-4 py-4 text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
-                                href="{{ route('user.profile') }}">{{ __('common.profile') }}</a>
-                                <x-home-nav-link :href="route('user.historyOrder')" :active="request()->routeIs('user.historyOrder')">
+                                    href="{{ route('user.profile') }}">{{ __('common.profile') }}</a>
+                                <x-home-nav-link :href="route('user.historyOrder')"
+                                    :active="request()->routeIs('user.historyOrder')">
                                     {{ __('common.purchase') }}
                                 </x-home-nav-link>
                                 <form

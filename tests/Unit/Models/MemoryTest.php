@@ -9,10 +9,23 @@ use Tests\ModelTestCase;
 
 class MemoryTest extends ModelTestCase
 {
+    protected $memory;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->memory = new Memory();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->memory);
+    }
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Memory(),
+            $this->memory,
             [
                 'fillable' => [
                     'rom',
@@ -23,11 +36,9 @@ class MemoryTest extends ModelTestCase
 
     public function testProductAttributeRelations()
     {
-        $memory = new Memory();
-
         $this->assertBelongsToRelation(
-            $memory->productAttribute(),
-            $memory,
+            $this->memory->productAttribute(),
+            $this->memory,
             new ProductAttribute(),
             'product_attribute_id'
         );
@@ -35,8 +46,6 @@ class MemoryTest extends ModelTestCase
 
     public function testOrderDetailsRelations()
     {
-        $memory = new Memory();
-
-        $this->assertHasManyRelation($memory->orderDetails(), $memory, new OrderDetail());
+        $this->assertHasManyRelation($this->memory->orderDetails(), $this->memory, new OrderDetail());
     }
 }

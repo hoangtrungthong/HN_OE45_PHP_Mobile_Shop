@@ -9,10 +9,24 @@ use Tests\ModelTestCase;
 
 class RatingTest extends ModelTestCase
 {
+    protected $rating;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->rating = new Rating();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->rating);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Rating(),
+            $this->rating,
             [
                 'fillable' => [
                     'product_id',
@@ -25,15 +39,11 @@ class RatingTest extends ModelTestCase
 
     public function testProductRelation()
     {
-        $rating = new Rating();
-
-        $this->assertBelongsToRelation($rating->product(), $rating, new Product(), 'product_id');
+        $this->assertBelongsToRelation($this->rating->product(), $this->rating, new Product(), 'product_id');
     }
 
     public function testUserRelation()
     {
-        $rating = new Rating();
-
-        $this->assertBelongsToRelation($rating->user(), $rating, new User(), 'user_id');
+        $this->assertBelongsToRelation($this->rating->user(), $this->rating, new User(), 'user_id');
     }
 }

@@ -13,10 +13,24 @@ use Tests\ModelTestCase;
 
 class ProductTest extends ModelTestCase
 {
+    protected $product;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->product = new Product();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->product);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Product(),
+            $this->product,
             [
                 'fillable' => [
                     'category_id',
@@ -31,43 +45,31 @@ class ProductTest extends ModelTestCase
 
     public function testCategoryRelations()
     {
-        $product = new Product();
-
-        $this->assertBelongsToRelation($product->category(), $product, new Category(), 'category_id');
+        $this->assertBelongsToRelation($this->product->category(), $this->product, new Category(), 'category_id');
     }
 
     public function testProductAttributesRelation()
     {
-        $product = new Product();
-
-        $this->assertHasManyRelation($product->productAttributes(), $product, new ProductAttribute());
+        $this->assertHasManyRelation($this->product->productAttributes(), $this->product, new ProductAttribute());
     }
 
     public function testProductImagesRelation()
     {
-        $product = new Product();
-
-        $this->assertHasManyRelation($product->productImages(), $product, new ProductImage());
+        $this->assertHasManyRelation($this->product->productImages(), $this->product, new ProductImage());
     }
 
     public function testRatingsRelation()
     {
-        $product = new Product();
-
-        $this->assertHasManyRelation($product->ratings(), $product, new Rating());
+        $this->assertHasManyRelation($this->product->ratings(), $this->product, new Rating());
     }
 
     public function testCommentsRelation()
     {
-        $product = new Product();
-
-        $this->assertHasManyRelation($product->comments(), $product, new Comment());
+        $this->assertHasManyRelation($this->product->comments(), $this->product, new Comment());
     }
 
     public function testOrderDetailsRelations()
     {
-        $product = new Product();
-
-        $this->assertHasManyRelation($product->orderDetails(), $product, new OrderDetail());
+        $this->assertHasManyRelation($this->product->orderDetails(), $this->product, new OrderDetail());
     }
 }

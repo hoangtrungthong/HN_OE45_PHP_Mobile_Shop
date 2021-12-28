@@ -8,10 +8,24 @@ use Tests\ModelTestCase;
 
 class CategoryTest extends ModelTestCase
 {
+    protected $category;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->category = new Category();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->category);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Category(),
+            $this->category,
             [
                 'fillable' => [
                     'name',
@@ -24,22 +38,21 @@ class CategoryTest extends ModelTestCase
 
     public function testProductsRelations()
     {
-        $category = new Category();
-
-        $this->assertHasManyRelation($category->products(), $category, new Product());
+        $this->assertHasManyRelation($this->category->products(), $this->category, new Product());
     }
 
     public function testParentCategoryRelations()
     {
-        $category = new Category();
-
-        $this->assertBelongsToRelation($category->parentCategory(), $category, $category, 'parent_category_id');
+        $this->assertBelongsToRelation(
+            $this->category->parentCategory(),
+            $this->category,
+            $this->category,
+            'parent_category_id'
+        );
     }
 
     public function testChildrenCategoryRelations()
     {
-        $category = new Category();
-
-        $this->assertHasManyRelation($category->childrenCategory(), $category, $category, 'parent');
+        $this->assertHasManyRelation($this->category->childrenCategory(), $this->category, $this->category, 'parent');
     }
 }

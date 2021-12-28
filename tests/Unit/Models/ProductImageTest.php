@@ -8,6 +8,19 @@ use Tests\ModelTestCase;
 
 class ProductImageTest extends ModelTestCase
 {
+    protected $product_images;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->product_images = new ProductImage();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->product_images);
+    }
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(

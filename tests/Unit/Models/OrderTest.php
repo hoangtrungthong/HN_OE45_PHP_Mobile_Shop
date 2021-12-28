@@ -9,10 +9,24 @@ use Tests\ModelTestCase;
 
 class OrderTest extends ModelTestCase
 {
+    protected $order;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->order = new Order();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->order);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Order(),
+            $this->order,
             [
                 'fillable' => [
                     'user_id',
@@ -27,15 +41,11 @@ class OrderTest extends ModelTestCase
 
     public function testOrderDetailsRelations()
     {
-        $order = new Order();
-
-        $this->assertHasManyRelation($order->orderDetails(), $order, new OrderDetail());
+        $this->assertHasManyRelation($this->order->orderDetails(), $this->order, new OrderDetail());
     }
 
     public function testUserRelations()
     {
-        $order = new Order();
-
-        $this->assertBelongsToRelation($order->user(), $order, new User(), 'user_id');
+        $this->assertBelongsToRelation($this->order->user(), $this->order, new User(), 'user_id');
     }
 }

@@ -9,10 +9,24 @@ use Tests\ModelTestCase;
 
 class ColorTest extends ModelTestCase
 {
+    protected $color;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->color = new Color();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->color);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Color(),
+            $this->color,
             [
                 'fillable' => [
                     'name',
@@ -23,11 +37,9 @@ class ColorTest extends ModelTestCase
 
     public function testProductAttributeRelations()
     {
-        $color = new Color();
-
         $this->assertBelongsToRelation(
-            $color->productAttribute(),
-            $color,
+            $this->color->productAttribute(),
+            $this->color,
             new ProductAttribute(),
             'product_attribute_id'
         );
@@ -36,8 +48,6 @@ class ColorTest extends ModelTestCase
 
     public function testOrderDetailsRelations()
     {
-        $color = new Color();
-
-        $this->assertHasManyRelation($color->orderDetails(), $color, new OrderDetail());
+        $this->assertHasManyRelation($this->color->orderDetails(), $this->color, new OrderDetail());
     }
 }

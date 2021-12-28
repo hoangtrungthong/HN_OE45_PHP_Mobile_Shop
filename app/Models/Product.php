@@ -20,10 +20,6 @@ class Product extends Model
         'specifications',
     ];
 
-    protected $filter = [
-        'name',
-    ];
-
     public function category()
     {
         return $this->belongsTo(Category::class);

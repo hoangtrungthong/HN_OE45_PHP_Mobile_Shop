@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\Repositories\CategoryRepository;
+use App\Contracts\Repositories\ColorRepository;
+use App\Contracts\Repositories\MemoryRepository;
+use App\Contracts\Repositories\ProductAttributeRepository;
+use App\Contracts\Repositories\ProductImageRepository;
+use App\Contracts\Repositories\ProductRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Models\Category;
-use App\Models\Color;
-use App\Models\Memory;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Requests\Product\StoreProductRequest;
-use App\Models\ProductAttribute;
-use App\Models\ProductImage;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,29 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public $productRepository;
+    public $categoryRepository;
+    public $colorRepository;
+    public $memoryRepository;
+    public $productAttributeRepository;
+    public $productImageRepository;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+        ColorRepository $colorRepository,
+        MemoryRepository $memoryRepository,
+        ProductAttributeRepository $productAttributeRepository,
+        ProductImageRepository $productImageRepository
+    ) {
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->colorRepository = $colorRepository;
+        $this->memoryRepository = $memoryRepository;
+        $this->productAttributeRepository = $productAttributeRepository;
+        $this->productImageRepository = $productImageRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,13 +52,7 @@ class ProductController extends Controller
     public function index()
     {
         $num = config('const.block');
-        $products = Product::with([
-            'category',
-            'productAttributes',
-            'productImages',
-        ])
-            ->orderBy('id', 'desc')
-            ->paginate(config('const.pagination'));
+        $products = $this->productRepository->getAllProduct();
 
         return view('admin.products.index', compact(['products', 'num']));
     }
@@ -46,24 +64,26 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $colors = Color::all();
-        $memories = Memory::all();
+        $categories = $this->categoryRepository->all();
+        $colors = $this->colorRepository->all();
+        $memories = $this->memoryRepository->all();
 
         return view(
             'admin.products.create',
-            compact([
+            compact(
+                [
                 'categories',
                 'colors',
                 'memories',
-            ])
+                ]
+            )
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreProductRequest $request)
@@ -76,28 +96,33 @@ class ProductController extends Controller
             $color = $request->color_id;
             $memory = $request->memory_id;
             $price = $request->price;
-            $product = Product::create($data);
+
+            $product = $this->productRepository->create($data);
             if (!$product) {
                 return redirect()->back()->withErrors('error');
             }
 
             foreach ($request->quantity as $key => $item) {
-                ProductAttribute::create([
+                $this->productAttributeRepository->create(
+                    [
                     'product_id' => $product->id,
                     'quantity' => $item,
                     'color_id' => $color[$key],
                     'memory_id' => $memory[$key],
                     'price' => $price[$key],
-                ]);
+                    ]
+                );
             };
 
             foreach ($request->files as $files) {
                 foreach ($files as $file) {
                     $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
-                    ProductImage::create([
+                    $this->productImageRepository->create(
+                        [
                         'product_id' => $product->id,
                         'path' => $img,
-                    ]);
+                        ]
+                    );
                 }
             }
 
@@ -113,57 +138,53 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
-        $product = Product::with(['productAttributes'])->where('slug', $slug)->firstOrFail();
-        $attr = ProductAttribute::with([
-            'colors',
-            'memories',
-        ])
-            ->where('product_id', $product->id)
-            ->get();
+        $product = $this->productRepository->getDetailProduct($slug);
 
-        $img = ProductImage::where('product_id', $product->id)->get();
-
-        return view('admin.products.details', compact(['product', 'attr', 'img']));
+        return view('admin.products.details', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
     public function edit($slug)
     {
-        $categories = Category::all();
-        $colors = Color::all();
-        $memories = Memory::all();
-        $product = Product::whereSlug($slug)->with([
+        $categories = $this->categoryRepository->all();
+        $colors = $this->colorRepository->all();
+        $memories = $this->memoryRepository->all();
+        $product = $this->productRepository->whereSlug($slug)->with(
+            [
             'category',
             'productAttributes',
             'productImages'
-        ])->firstOrFail();
+            ]
+        )->firstOrFail();
 
         return view(
             'admin.products.edit',
-            compact([
+            compact(
+                [
                 'product',
                 'categories',
                 'colors',
                 'memories'
-            ])
+                ]
+            )
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Product      $product
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProductRequest $request, Product $product)
@@ -183,20 +204,24 @@ class ProductController extends Controller
                 $ids = $product->productAttributes->pluck('id')->toArray();
                 $product->productAttributes()
                     ->where('id', $ids[$key])
-                    ->update([
+                    ->update(
+                        [
                         'quantity' => $item,
                         'color_id' => $request->color_id[$key],
                         'memory_id' => $request->memory_id[$key],
                         'price' => $request->price[$key],
-                    ]);
+                        ]
+                    );
             };
 
             foreach ($request->files as $files) {
                 foreach ($files as $file) {
                     $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
-                    $product->productImages()->updateOrCreate([
+                    $product->productImages()->updateOrCreate(
+                        [
                         'path' => $img,
-                    ]);
+                        ]
+                    );
                 }
             }
 
@@ -212,17 +237,16 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param  \App\Models\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+
+    public function destroy($id)
     {
         try {
             DB::beginTransaction();
 
-            $product->delete();
-            $product->productAttributes()->delete();
-            $product->productImages()->delete();
+            $this->productRepository->deleteProduct($id);
 
             DB::commit();
 
@@ -236,12 +260,14 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $num = config('const.block');
-        $key = Str::slug($request->key);
 
-        $products = Product::WhereHas('productAttributes', function ($query) use ($request) {
+        $products = $this->productRepository->WhereHas(
+            'productAttributes',
+            function ($query) use ($request) {
                 $query->where('price', 'like', $request->key);
-        })
-            ->orWhere('slug', 'like', '%' . $key . '%')
+            }
+        )
+            ->orWhere('name', 'like', '%' . $request->key . '%')
             ->orderBy('id', 'desc')
             ->paginate(config('const.pagination'));
 

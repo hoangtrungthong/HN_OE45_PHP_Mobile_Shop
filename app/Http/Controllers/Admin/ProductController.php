@@ -22,10 +22,15 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
     public $productRepository;
+
     public $categoryRepository;
+
     public $colorRepository;
+
     public $memoryRepository;
+
     public $productAttributeRepository;
+
     public $productImageRepository;
 
     public function __construct(
@@ -43,7 +48,6 @@ class ProductController extends Controller
         $this->productAttributeRepository = $productAttributeRepository;
         $this->productImageRepository = $productImageRepository;
     }
-
     /**
      * Display a listing of the resource.
      *

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\OrderDetailRepository;
+use App\Contracts\Repositories\OrderRepository;
 use App\Http\Requests\Order\StoreRequest;
 use App\Mail\OrderUser;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,34 @@ use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
+
+    public $orderRepository;
+    public $orderDetailRepository;
+
+    public function __construct(
+        OrderRepository $orderRepository,
+        OrderDetailRepository $orderDetailRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->orderDetailRepository = $orderDetailRepository;
+    }
+
     public function index()
     {
-        $orders = Order::with('user')->orderBy('id', 'desc')->paginate(config('const.pagination'));
+        $orders = $this->orderRepository
+            ->with('user')
+            ->orderBy('id', 'desc')
+            ->paginate(config('const.pagination'));
 
         return view('admin.orders.index', compact('orders'));
     }
 
     public function show($id)
     {
-        $orderDetails = OrderDetail::with(['order', 'product', 'color', 'memory'])->where('order_id', $id)->get();
+        $orderDetails = $this->orderDetailRepository
+            ->with(['order', 'product', 'color', 'memory'])
+            ->where('order_id', $id)
+            ->get();
 
         return view('admin.orders.details', compact('orderDetails'));
     }
@@ -32,7 +51,7 @@ class OrderController extends Controller
     public function getOrderPending()
     {
         $user = Auth::user();
-        $orders = Order::with('orderDetails')
+        $orders = $this->orderRepository->with('orderDetails')
             ->where('user_id', $user->id)
             ->where('status', '!=', config('const.approve'))
             ->paginate(config('const.pagination'));
@@ -43,7 +62,7 @@ class OrderController extends Controller
     public function getOrderUser()
     {
         $user = Auth::user();
-        $orders = Order::with('orderDetails')
+        $orders = $this->orderRepository->with('orderDetails')
             ->where('user_id', $user->id)
             ->where('status', config('const.approve'))
             ->paginate(config('const.pagination'));
@@ -66,10 +85,11 @@ class OrderController extends Controller
             $data['amount'] = $amount;
             $data['status'] = config('const.pending');
 
-            $order = Order::create($data);
+            $order = $this->orderRepository->create($data);
 
             foreach ($cart as $value) {
-                OrderDetail::create([
+                $this->orderDetailRepository->create(
+                    [
                     'order_id' => $order->id,
                     'product_id' => $value['id'],
                     'color_id' => $value['color'],
@@ -77,7 +97,8 @@ class OrderController extends Controller
                     'price' => $value['price'],
                     'quantity' => $value['quantity'],
                     'image' => $value['image'],
-                ]);
+                    ]
+                );
             }
 
             Session::forget('cart');
@@ -96,8 +117,8 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            $order = Order::findOrFail($id);
-            $orderDetails = OrderDetail::with(['order', 'product', 'color', 'memory'])
+            $orderDetails = $this->orderDetailRepository
+                ->with(['order', 'product', 'color', 'memory'])
                 ->where('order_id', $id)
                 ->get();
 
@@ -112,14 +133,18 @@ class OrderController extends Controller
                 }
 
                 $remaining = $productAttr->quantity - $item->quantity;
-                $productAttr->update([
-                    'quantity' => $remaining,
-                ]);
+                $productAttr->update(
+                    [
+                        'quantity' => $remaining,
+                    ]
+                );
             }
 
-            Order::whereId($id)->update([
+            $this->orderRepository->whereId($id)->update(
+                [
                 'status' => config('const.approve'),
-            ]);
+                ]
+            );
 
             //send mail to user after admin approve order
             Mail::to($order->user->email)
@@ -136,9 +161,11 @@ class OrderController extends Controller
 
     public function rejectOrder($id)
     {
-        Order::whereId($id)->update([
-            'status' => config('const.reject'),
-        ]);
+        $this->orderRepository->whereId($id)->update(
+            [
+                'status' => config('const.reject'),
+            ]
+        );
 
         return redirect()->route('admin.orders.index');
     }

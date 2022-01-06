@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductAttribute;
-use App\Models\ProductImage;
+use App\Contracts\Repositories\CategoryRepository;
+use App\Contracts\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
+    public $productRepository;
+    public $categoryRepository;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
+    ) {
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     public function changeLang(Request $request)
     {
         Session::put('language', $request->language);
@@ -20,10 +29,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('id', 'DESC')
+        $products = $this->productRepository->orderBy('id', 'DESC')
             ->paginate(config('const.pagination'));
 
-        $categories = Category::with('childrenCategory')
+        $categories = $this->categoryRepository->with('childrenCategory')
             ->whereParent(config('const.active'))
             ->get();
 
@@ -32,7 +41,7 @@ class HomeController extends Controller
 
     public function showProduct($slug)
     {
-        $product = Product::with(
+        $product = $this->productRepository->with(
             [
                 'productAttributes' => function ($query) {
                     $query->with('colors', 'memories');
@@ -57,24 +66,31 @@ class HomeController extends Controller
         $star4 = $product->ratings()->whereVote(config('const.four_stars'))->count() * config('const.percent');
         $star5 = $product->ratings()->whereVote(config('const.five_stars'))->count() * config('const.percent');
 
-        return view('details_product', compact([
-            'product',
-            'star1',
-            'star2',
-            'star3',
-            'star4',
-            'star5',
-        ]));
+        return view(
+            'details_product',
+            compact(
+                [
+                    'product',
+                    'star1',
+                    'star2',
+                    'star3',
+                    'star4',
+                    'star5',
+                ]
+            )
+        );
     }
 
     public function getProductByCategory($slug)
     {
-        $category = Category::with(
+        $category = $this->categoryRepository->with(
             [
                 'childrenCategory' => function ($query) {
-                    $query->with(['products' => function ($q) {
-                        $q->with('productAttributes', 'productImages');
-                    }]);
+                    $query->with(
+                        ['products' => function ($q) {
+                            $q->with('productAttributes', 'productImages');
+                        }]
+                    );
                 },
                 'products',
             ]

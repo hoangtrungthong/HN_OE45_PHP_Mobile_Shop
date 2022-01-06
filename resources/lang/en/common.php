@@ -56,4 +56,7 @@ return [
     'fail_order' => 'The product is currently out of stock of the color or memory you selected. Please choose again!',
     'fail_search' => 'No matching results were found. Please try again!',
     'found' => 'Found',
+    'feedback' => 'Feedback',
+    'thanks' => 'Thanks',
+    'msg_feedback' => 'If there is a mistake, please give us feedback',
 ];

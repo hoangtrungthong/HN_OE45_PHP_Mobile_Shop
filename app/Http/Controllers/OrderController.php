@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Order\StoreRequest;
+use App\Mail\OrderUser;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
@@ -94,6 +96,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $order = Order::findOrFail($id);
             $orderDetails = OrderDetail::with(['order', 'product', 'color', 'memory'])
                 ->where('order_id', $id)
                 ->get();
@@ -117,6 +120,10 @@ class OrderController extends Controller
             Order::whereId($id)->update([
                 'status' => config('const.approve'),
             ]);
+
+            //send mail to user after admin approve order
+            Mail::to($order->user->email)
+                ->send(new OrderUser($order));
 
             DB::commit();
 

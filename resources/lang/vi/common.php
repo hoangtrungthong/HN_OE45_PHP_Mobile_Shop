@@ -56,4 +56,7 @@ return [
     'fail_order' => 'Hiện sản phẩm đã hết màu hoặc bộ nhớ mà bạn đã chọn.Vui lòng chọn lại!',
     'fail_search' => 'Không tìm thấy kết quả phù hợp. Vui lòng thử lại!',
     'found' => 'Đã tìm thấy',
+    'feedback' => 'Phản hồi',
+    'thanks' => 'Cảm ơn bạn',
+    'msg_feedback' => 'Nếu có sai xót, vui lòng phản hồi cho chúng tôi',
 ];

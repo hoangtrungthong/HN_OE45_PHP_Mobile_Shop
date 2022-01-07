@@ -32,17 +32,22 @@ class HomeController extends Controller
 
     public function showProduct($slug)
     {
-        $product = Product::with([
-            'productAttributes',
-            'comments' => function ($query) {
-                $query->with('user')
-                    ->limit(config('const.pagination'))
-                    ->orderBy('id', 'DESC');
-            },
-            'ratings' => function ($query) {
-                $query->with('user');
-            }
-        ])
+        $product = Product::with(
+            [
+                'productAttributes' => function ($query) {
+                    $query->with('colors', 'memories');
+                },
+                'comments' => function ($query) {
+                    $query->with('user')
+                        ->limit(config('const.pagination'))
+                        ->orderBy('id', 'DESC');
+                },
+                'ratings' => function ($query) {
+                    $query->with('user');
+                },
+                'productImages',
+            ]
+        )
             ->whereSlug($slug)
             ->firstOrFail();
 
@@ -52,19 +57,8 @@ class HomeController extends Controller
         $star4 = $product->ratings()->whereVote(config('const.four_stars'))->count() * config('const.percent');
         $star5 = $product->ratings()->whereVote(config('const.five_stars'))->count() * config('const.percent');
 
-        $attr = ProductAttribute::with([
-            'colors',
-            'memories',
-        ])
-            ->where('product_id', $product->id)
-            ->get();
-
-        $images = ProductImage::where('product_id', $product->id)->get();
-
         return view('details_product', compact([
             'product',
-            'attr',
-            'images',
             'star1',
             'star2',
             'star3',
@@ -75,11 +69,18 @@ class HomeController extends Controller
 
     public function getProductByCategory($slug)
     {
-        $category = Category::with(['childrenCategory' => function ($query) {
-            $query->with(['products' => function ($q) {
-                $q->with('productAttributes', 'productImages');
-            }]);
-        }])->whereSlug($slug)->firstOrFail();
+        $category = Category::with(
+            [
+                'childrenCategory' => function ($query) {
+                    $query->with(['products' => function ($q) {
+                        $q->with('productAttributes', 'productImages');
+                    }]);
+                },
+                'products',
+            ]
+        )
+            ->whereSlug($slug)
+            ->firstOrFail();
 
         return view('category', compact('category'));
     }

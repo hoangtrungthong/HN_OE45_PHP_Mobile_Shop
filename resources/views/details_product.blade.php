@@ -3,7 +3,7 @@
         <div class="bg-white mt-10">
             <div class="pt-6">
                 <div class="mt-6 max-w-2xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-                    @foreach ($images as $img)
+                    @foreach ($product->productImages as $img)
                         <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
                             <img src="{{ Storage::url($img->path) }}"
                                 alt="Two each of gray, white, and black shirts laying flat."
@@ -98,7 +98,7 @@
                     <div class="mt-4 lg:mt-0 lg:row-span-3">
                         <h2 class="sr-only">Product information</h2>
                         @php
-                            $price = array_unique($attr->pluck('price')->toArray());
+                            $price = array_unique($product->productAttributes->pluck('price')->toArray());
                         @endphp
                         @foreach ($price as $p)
                             <p class="text-3xl text-gray-900">${{ number_format($p) }}</p>
@@ -111,7 +111,7 @@
                                 <h3 class="text-sm text-gray-900 font-medium">{{ __('common.color') }}</h3>
                                 <fieldset class="mt-4">
                                     <div class="flex items-center space-x-3">
-                                        @foreach ($attr as $items)
+                                        @foreach ($product->productAttributes as $items)
                                             @foreach ($items->colors as $color)
                                                 <label
                                                     class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
@@ -135,7 +135,7 @@
                                 </div>
                                 <fieldset class="mt-4">
                                     <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                        @foreach ($attr as $items)
+                                        @foreach ($product->productAttributes as $items)
                                             @foreach ($items->memories as $memory)
                                                 <label id="memory_id" for="mem{{ $memory->id }}"
                                                     class="text-black">
@@ -221,8 +221,7 @@
                                         <label for="content"
                                             class="block text-sm font-medium text-gray-700">{{ __('common.content') }}</label>
                                         <textarea cols="30" rows="5" name="content" id="content"
-                                            class="resize-none mt-1 text-black block w-full shadow-sm border-gray-300 rounded-md">
-                                        </textarea>
+                                            class="resize-none mt-1 text-black block w-full shadow-sm border-gray-300 rounded-md"></textarea>
                                         @error('content')
                                             <p class="text-red-500">{{ $message }}</p>
                                         @enderror
@@ -258,7 +257,7 @@
             </div>
         </div>
         <script>
-            {!! $attr !!}.forEach(el => {
+            {!! $product->productAttributes !!}.forEach(el => {
                 el.memories.forEach(element => {
                     $(document).ready(function() {
                         $("#memory_id").attr('for', function(index, value) {

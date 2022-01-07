@@ -91,8 +91,7 @@
                                 <label for="content"
                                     class="block text-sm font-medium text-gray-700">{{ __('common.content') }}</label>
                                 <textarea cols="30" rows="5" name="content" id="content"
-                                    class="mt-1 block w-full shadow-sm border-gray-300 rounded-md">
-                                </textarea>
+                                    class="mt-1 block w-full shadow-sm border-gray-300 rounded-md"></textarea>
                                 @error('content')
                                     <p class="text-red-500">{{ $message }}</p>
                                 @enderror
@@ -101,8 +100,7 @@
                                 <label for="specifications"
                                     class="block text-sm font-medium text-gray-700">{{ __('common.specifications') }}</label>
                                 <textarea cols="30" rows="5" name="specifications" id="specifications"
-                                    class="mt-1 block w-full shadow-sm border-gray-300 rounded-md">
-                                </textarea>
+                                    class="mt-1 block w-full shadow-sm border-gray-300 rounded-md"></textarea>
                                 @error('specifications')
                                     <p class="text-red-500">{{ $message }}</p>
                                 @enderror

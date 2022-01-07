@@ -70,7 +70,7 @@ class UpdateProductRequest extends FormRequest
                 'min:50',
                 'max:4000',
             ],
-            'files.*' => [
+            'images.*' => [
                 'required',
                 'mimes:jpg,jpeg,png,JPG,JPEG,PNG',
                 'max:5120',

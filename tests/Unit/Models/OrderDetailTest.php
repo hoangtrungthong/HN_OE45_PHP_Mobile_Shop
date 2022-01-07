@@ -11,10 +11,23 @@ use Tests\ModelTestCase;
 
 class OrderDetailTest extends ModelTestCase
 {
+    protected $order_details;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->order_details = new OrderDetail();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->order_details);
+    }
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new OrderDetail(),
+            $this->order_details,
             [
                 'fillable' => [
                     'product_id',
@@ -31,11 +44,9 @@ class OrderDetailTest extends ModelTestCase
 
     public function testOrderRelations()
     {
-        $order_details = new OrderDetail();
-
         $this->assertBelongsToRelation(
-            $order_details->order(),
-            $order_details,
+            $this->order_details->order(),
+            $this->order_details,
             new Order(),
             'order_id'
         );
@@ -43,11 +54,9 @@ class OrderDetailTest extends ModelTestCase
 
     public function testProductRelations()
     {
-        $order_details = new OrderDetail();
-
         $this->assertBelongsToRelation(
-            $order_details->product(),
-            $order_details,
+            $this->order_details->product(),
+            $this->order_details,
             new Product(),
             'product_id'
         );
@@ -55,11 +64,9 @@ class OrderDetailTest extends ModelTestCase
 
     public function testColorRelations()
     {
-        $order_details = new OrderDetail();
-
         $this->assertBelongsToRelation(
-            $order_details->color(),
-            $order_details,
+            $this->order_details->color(),
+            $this->order_details,
             new Color(),
             'color_id'
         );
@@ -67,11 +74,9 @@ class OrderDetailTest extends ModelTestCase
 
     public function testMemoryRelations()
     {
-        $order_details = new OrderDetail();
-
         $this->assertBelongsToRelation(
-            $order_details->memory(),
-            $order_details,
+            $this->order_details->memory(),
+            $this->order_details,
             new Memory(),
             'memory_id'
         );

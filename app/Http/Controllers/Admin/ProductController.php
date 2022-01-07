@@ -72,9 +72,9 @@ class ProductController extends Controller
             'admin.products.create',
             compact(
                 [
-                'categories',
-                'colors',
-                'memories',
+                    'categories',
+                    'colors',
+                    'memories',
                 ]
             )
         );
@@ -105,25 +105,23 @@ class ProductController extends Controller
             foreach ($request->quantity as $key => $item) {
                 $this->productAttributeRepository->create(
                     [
-                    'product_id' => $product->id,
-                    'quantity' => $item,
-                    'color_id' => $color[$key],
-                    'memory_id' => $memory[$key],
-                    'price' => $price[$key],
+                        'product_id' => $product->id,
+                        'quantity' => $item,
+                        'color_id' => $color[$key],
+                        'memory_id' => $memory[$key],
+                        'price' => $price[$key],
                     ]
                 );
             };
 
-            foreach ($request->files as $files) {
-                foreach ($files as $file) {
-                    $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
-                    $this->productImageRepository->create(
-                        [
+            foreach ($request->images as $file) {
+                $img = uploadFile('images', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
+                $this->productImageRepository->create(
+                    [
                         'product_id' => $product->id,
                         'path' => $img,
-                        ]
-                    );
-                }
+                    ]
+                );
             }
 
             DB::commit();
@@ -161,9 +159,9 @@ class ProductController extends Controller
         $memories = $this->memoryRepository->all();
         $product = $this->productRepository->whereSlug($slug)->with(
             [
-            'category',
-            'productAttributes',
-            'productImages'
+                'category',
+                'productAttributes',
+                'productImages'
             ]
         )->firstOrFail();
 
@@ -171,10 +169,10 @@ class ProductController extends Controller
             'admin.products.edit',
             compact(
                 [
-                'product',
-                'categories',
-                'colors',
-                'memories'
+                    'product',
+                    'categories',
+                    'colors',
+                    'memories'
                 ]
             )
         );
@@ -206,23 +204,21 @@ class ProductController extends Controller
                     ->where('id', $ids[$key])
                     ->update(
                         [
-                        'quantity' => $item,
-                        'color_id' => $request->color_id[$key],
-                        'memory_id' => $request->memory_id[$key],
-                        'price' => $request->price[$key],
+                            'quantity' => $item,
+                            'color_id' => $request->color_id[$key],
+                            'memory_id' => $request->memory_id[$key],
+                            'price' => $request->price[$key],
                         ]
                     );
             };
 
-            foreach ($request->files as $files) {
-                foreach ($files as $file) {
-                    $img = uploadFile('files', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
-                    $product->productImages()->updateOrCreate(
-                        [
+            foreach ($request->images as $file) {
+                $img = uploadFile('images', config('path.PRODUCT_UPLOAD_PATH'), $request, $file);
+                $product->productImages()->updateOrCreate(
+                    [
                         'path' => $img,
-                        ]
-                    );
-                }
+                    ]
+                );
             }
 
             DB::commit();

@@ -26,10 +26,10 @@ class SignUpRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min: 5', 'max:100'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'min:13', 'max:255', 'unique:users'],
             'password' => ['required', 'string','confirmed', Rules\Password::defaults()],
             'phone' => ['required', 'digits: 10', 'unique:users'],
-            'address' => ['required', 'string'],
+            'address' => ['required', 'string', 'min: 10'],
         ];
     }
 }

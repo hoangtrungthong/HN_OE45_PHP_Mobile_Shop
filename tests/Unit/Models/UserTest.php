@@ -11,10 +11,24 @@ use Tests\ModelTestCase;
 
 class UserTest extends ModelTestCase
 {
+    protected $user;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = new User();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->user);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new User(),
+            $this->user,
             [
                 'fillable' => [
                     'name',
@@ -41,29 +55,21 @@ class UserTest extends ModelTestCase
 
     public function testRoleRelations()
     {
-        $user = new User();
-
-        $this->assertBelongsToRelation($user->role(), $user, new Role(), 'role_id');
+        $this->assertBelongsToRelation($this->user->role(), $this->user, new Role(), 'role_id');
     }
 
     public function testRatingsRelation()
     {
-        $user = new User();
-
-        $this->assertHasManyRelation($user->ratings(), $user, new Rating());
+        $this->assertHasManyRelation($this->user->ratings(), $this->user, new Rating());
     }
 
     public function testCommentsRelation()
     {
-        $user = new User();
-
-        $this->assertHasManyRelation($user->comments(), $user, new Comment());
+        $this->assertHasManyRelation($this->user->comments(), $this->user, new Comment());
     }
 
     public function testOrdersRelation()
     {
-        $user = new User();
-
-        $this->assertHasManyRelation($user->orders(), $user, new Order());
+        $this->assertHasManyRelation($this->user->orders(), $this->user, new Order());
     }
 }

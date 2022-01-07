@@ -9,10 +9,24 @@ use Tests\ModelTestCase;
 
 class CommentTest extends ModelTestCase
 {
+    protected $comment;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->comment = new Comment();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->comment);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Comment(),
+            $this->comment,
             [
                 'fillable' => [
                     'product_id',
@@ -26,11 +40,9 @@ class CommentTest extends ModelTestCase
 
     public function testProductRelations()
     {
-        $comment = new Comment();
-
         $this->assertBelongsToRelation(
-            $comment->product(),
-            $comment,
+            $this->comment->product(),
+            $this->comment,
             new Product(),
             'product_id'
         );
@@ -38,8 +50,6 @@ class CommentTest extends ModelTestCase
 
     public function testUserRelations()
     {
-        $comment = new Comment();
-
-        $this->assertBelongsToRelation($comment->user(), $comment, new User(), 'user_id');
+        $this->assertBelongsToRelation($this->comment->user(), $this->comment, new User(), 'user_id');
     }
 }

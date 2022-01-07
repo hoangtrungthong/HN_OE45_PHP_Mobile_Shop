@@ -108,8 +108,8 @@
                             <div class="col-span-8 sm:col-span-8">
                                 <label for="files"
                                     class="block text-sm font-medium text-gray-700">{{ __('common.image') }}</label>
-                                <input type="file" id="image" name="files[]" multiple />
-                                @error('files')
+                                <input type="file" id="image" name="images[]" multiple />
+                                @error('images')
                                     <p class="text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>

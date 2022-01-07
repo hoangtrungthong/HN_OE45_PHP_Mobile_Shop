@@ -8,10 +8,24 @@ use Tests\ModelTestCase;
 
 class RoleTest extends ModelTestCase
 {
+    protected $role;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->role = new Role();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        unset($this->role);
+    }
+
     public function testModelConfiguration()
     {
         $this->runConfigurationAssertions(
-            new Role(),
+            $this->role,
             [
                 'fillable' => [
                     'name',
@@ -22,8 +36,6 @@ class RoleTest extends ModelTestCase
 
     public function testUsersRelation()
     {
-        $role = new Role();
-
-        $this->assertHasManyRelation($role->users(), $role, new User(), 'role_id');
+        $this->assertHasManyRelation($this->role->users(), $this->role, new User(), 'role_id');
     }
 }

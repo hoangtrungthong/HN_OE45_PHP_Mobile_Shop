@@ -96,11 +96,40 @@
                         </table>
                     </div>
                 </div>
-                <a href="{{ route('admin.orders.index') }}"
-                    class="ml-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <i class="fas fa-arrow-circle-left"></i>
-                    {{ __('common.back') }}
-                </a>
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('admin.orders.index') }}"
+                        class="ml-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-arrow-circle-left"></i>
+                        {{ __('common.back') }}
+                    </a>
+                    @if ($orderDetails[0]->order->status == config('const.approve') || $orderDetails[0]->order->status == config('const.reject'))
+                        <p class="py-2 px-4 mr-10 rounded text-white text-xs font-bold {{ $orderDetails[0]->order->status == config('const.reject') ? 'bg-red-400 px-7'  : 'bg-green-400 ' }} ">
+                            {{ $orderDetails[0]->order->status == config('const.reject') ? __('common.rejected') : __('common.accepted') }}
+                        </p>
+                    @else
+                    <div class="flex gap-3 items-center mr-10">
+                        <form action="{{ route('admin.stateOrder', $orderDetails[0]->order->id) }}"
+                            method="post">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit"
+                                class="inline-block bg-indigo-500 hover:bg--700 text-white text-center py-1 px-3 rounded">
+                                <i class="fas fa-check-circle"></i>
+                            </button>
+                        </form>
+                        <form action="{{ route('admin.rejectOrder', $orderDetails[0]->order->id) }}"
+                            method="post">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit"
+                                class="bg-red-500 hover:bg-red-700 text-white text-center py-1 px-3 rounded"
+                                onclick="return confirm('Are you sure to remove this products ?')">
+                                <i class="fas fa-window-close"></i>
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
     </x-slot>

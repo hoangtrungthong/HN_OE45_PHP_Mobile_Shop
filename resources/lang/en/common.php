@@ -59,4 +59,8 @@ return [
     'feedback' => 'Feedback',
     'thanks' => 'Thanks',
     'msg_feedback' => 'If there is a mistake, please give us feedback',
+    'notifications' => 'Notifications',
+    'new_order' => 'Got a new order from ',
+    'all' => 'View all',
+    'empty_notify' => 'There are currently no notifications !',
 ];

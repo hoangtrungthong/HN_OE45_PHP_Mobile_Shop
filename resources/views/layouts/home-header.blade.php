@@ -51,7 +51,7 @@
                     <div
                         class="gradient rounded-sm transform scale-0 group-hover:scale-100 absolute
                     transition duration-150 ease-in-out origin-top min-w-32">
-                        @foreach ($categories as $category)
+                        @foreach ($data['categories'] as $category)
                             <a class="block pl-3 pr-4 py-4 cursor-pointer text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-gray-50 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out" href="{{ route('category', $category->slug) }}">
                                 {{ $category->name }}
                             </a>

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\OrderDetailRepository;
 use App\Contracts\Repositories\OrderRepository;
+use App\Contracts\Repositories\UserRepository;
 use App\Http\Requests\Order\StoreRequest;
 use App\Mail\OrderUser;
 use App\Models\Order;
+use App\Notifications\OrderAdminNotification;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,16 +19,18 @@ use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
-
     public $orderRepository;
     public $orderDetailRepository;
+    public $userRepository;
 
     public function __construct(
         OrderRepository $orderRepository,
-        OrderDetailRepository $orderDetailRepository
+        OrderDetailRepository $orderDetailRepository,
+        UserRepository $userRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderDetailRepository = $orderDetailRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
@@ -90,18 +95,28 @@ class OrderController extends Controller
             foreach ($cart as $value) {
                 $this->orderDetailRepository->create(
                     [
-                    'order_id' => $order->id,
-                    'product_id' => $value['id'],
-                    'color_id' => $value['color'],
-                    'memory_id' => $value['memory'],
-                    'price' => $value['price'],
-                    'quantity' => $value['quantity'],
-                    'image' => $value['image'],
+                        'order_id' => $order->id,
+                        'product_id' => $value['id'],
+                        'color_id' => $value['color'],
+                        'memory_id' => $value['memory'],
+                        'price' => $value['price'],
+                        'quantity' => $value['quantity'],
+                        'image' => $value['image'],
                     ]
                 );
             }
 
             Session::forget('cart');
+
+            $admin = $this->userRepository->findAdmin();
+
+            $orderData = [
+                'order_id' => $order->id,
+                'content' => __('common.new_order') . $order->user->name,
+            ];
+
+            // send notify admin
+            $admin->notify(new OrderAdminNotification($orderData));
 
             DB::commit();
 
@@ -117,6 +132,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
+            $order = Order::findOrFail($id);
             $orderDetails = $this->orderDetailRepository
                 ->with(['order', 'product', 'color', 'memory'])
                 ->where('order_id', $id)
@@ -142,7 +158,7 @@ class OrderController extends Controller
 
             $this->orderRepository->whereId($id)->update(
                 [
-                'status' => config('const.approve'),
+                    'status' => config('const.approve'),
                 ]
             );
 

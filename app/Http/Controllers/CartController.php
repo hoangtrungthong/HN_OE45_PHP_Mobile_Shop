@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\ProductAttribute;
+use App\Contracts\Repositories\ProductAttributeRepository;
+use App\Contracts\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -11,6 +11,17 @@ use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
+    public $productRepository;
+    public $productAttributeRepository;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        ProductAttributeRepository $productAttributeRepository
+    ) {
+        $this->productRepository = $productRepository;
+        $this->productAttributeRepository = $productAttributeRepository;
+    }
+
     public function index()
     {
         return view('user.cart');
@@ -18,7 +29,10 @@ class CartController extends Controller
 
     public function add(Request $request, $slug)
     {
-        $product = Product::with(['productAttributes', 'productImages'])->whereSlug($slug)->firstOrFail();
+        $product = $this->productRepository
+            ->with(['productAttributes', 'productImages'])
+            ->whereSlug($slug)->firstOrFail();
+
         $attr = $product->productAttributes()
             ->with(['colors', 'memories'])
             ->where('color_id', $request->color)
@@ -47,9 +61,9 @@ class CartController extends Controller
             return redirect()->route('cart');
         }
 
-        if (isset($cart[$slug . $key]) &&
-            $cart[$slug . $key]['color'] === $request->color &&
-            $cart[$slug . $key]['memory'] === $request->memory
+        if (isset($cart[$slug . $key])
+            && $cart[$slug . $key]['color'] === $request->color
+            && $cart[$slug . $key]['memory'] === $request->memory
         ) {
             if ($cart[$slug . $key]['quantity'] >= $attr->quantity) {
                 return redirect()->back()->with('alert', __('common.fail_order'));
@@ -83,7 +97,8 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-        $attr = ProductAttribute::where('product_id', $request->id)
+        $attr = $this->productAttributeRepository
+            ->where('product_id', $request->id)
             ->where('color_id', $request->color)
             ->where('memory_id', $request->memory)
             ->firstOrFail();

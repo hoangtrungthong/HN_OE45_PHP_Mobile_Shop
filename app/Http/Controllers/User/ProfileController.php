@@ -39,9 +39,11 @@ class ProfileController extends Controller
 
     public function changePassword(ChangePasswordRequest $request, User $user)
     {
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
+        $user->update(
+            [
+                'password' => Hash::make($request->password),
+            ]
+        );
 
         return redirect()->route('user.profile');
     }

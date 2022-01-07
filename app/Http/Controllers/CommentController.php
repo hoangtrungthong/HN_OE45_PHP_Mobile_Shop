@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\CommentRepository;
+use App\Contracts\Repositories\RatingRepository;
 use App\Http\Requests\Users\CommentRequest;
 use App\Models\Comment;
-use App\Models\Rating;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,17 @@ use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
+    public $commentRepository;
+    public $ratingRepository;
+
+    public function __construct(
+        CommentRepository $commentRepository,
+        RatingRepository $ratingRepository
+    ) {
+        $this->commentRepository = $commentRepository;
+        $this->ratingRepository = $ratingRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +48,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(CommentRequest $request)
@@ -44,17 +56,21 @@ class CommentController extends Controller
         try {
             DB::beginTransaction();
 
-            Comment::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $request->product_id,
-                'content' => $request->content,
-            ]);
+            $this->commentRepository->create(
+                [
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $request->product_id,
+                    'content' => $request->content,
+                ]
+            );
 
-            Rating::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $request->product_id,
-                'vote' => $request->vote,
-            ]);
+            $this->ratingRepository->create(
+                [
+                    'user_id' => Auth::user()->id,
+                    'product_id' => $request->product_id,
+                    'vote' => $request->vote,
+                ]
+            );
 
             DB::commit();
 
@@ -68,7 +84,7 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function show(Comment $comment)
@@ -79,7 +95,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function edit(Comment $comment)
@@ -90,8 +106,8 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Comment      $comment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Comment $comment)
@@ -102,7 +118,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Comment $comment)

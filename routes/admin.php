@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,6 @@ Route::group(['middleware' => ['role:admin','locale'] ], function () {
     Route::get('order-details/{id}', [OrderController::class, 'show'])->name('orderDetails');
     Route::patch('approve-order/{id}', [OrderController::class, 'state'])->name('stateOrder');
     Route::patch('reject-order/{id}', [OrderController::class, 'rejectOrder'])->name('rejectOrder');
+
+    Route::resource('notifications', NotificationController::class)->only(['index', 'update']);
 });

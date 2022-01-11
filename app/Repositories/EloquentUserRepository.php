@@ -11,4 +11,24 @@ class ELoquentUserRepository extends EloquentRepository implements UserRepositor
     {
         return parent::__construct($model);
     }
+
+    public function findAdmin()
+    {
+        return $this->model
+            ->where('role_id', config('const.admin'))
+            ->firstOrFail();
+    }
+
+    public function getCurrentNotifications($id)
+    {
+        return $this->findAdmin()
+            ->notifications
+            ->where('id', $id)
+            ->firstOrFail();
+    }
+
+    public function getNotifications()
+    {
+        return $this->findAdmin()->notifications;
+    }
 }

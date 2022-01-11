@@ -59,4 +59,8 @@ return [
     'feedback' => 'Phản hồi',
     'thanks' => 'Cảm ơn bạn',
     'msg_feedback' => 'Nếu có sai xót, vui lòng phản hồi cho chúng tôi',
+    'notifications' => 'Thông báo',
+    'new_order' => 'Có đơn đặt hàng mới từ ',
+    'all' => 'Xem tất cả',
+    'empty_notify' => 'Hiện tại không có thông báo !',
 ];

@@ -63,4 +63,5 @@ return [
     'new_order' => 'Got a new order from ',
     'all' => 'View all',
     'empty_notify' => 'There are currently no notifications !',
+    'report_sales' => ' Report sales of ',
 ];

@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Repositories\OrderDetailRepository;
-use App\Contracts\Repositories\OrderRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Mail\ReportSales;
 use Illuminate\Console\Command;
@@ -41,12 +40,11 @@ class ReportCommand extends Command
      * @return int
      */
     public function handle(
-        OrderRepository $orderRepository,
         OrderDetailRepository $orderDetailRepository,
         UserRepository $userRepository
     ) {
-        $report = $orderRepository->getOrderApproveOfMonth();
-     
+        $report = $orderDetailRepository->getOrderApproveOfMonth();
+
         Mail::to($userRepository->findAdmin())->send(new ReportSales($report));
 
         return Command::SUCCESS;

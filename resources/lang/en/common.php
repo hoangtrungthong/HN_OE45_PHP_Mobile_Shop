@@ -17,7 +17,7 @@ return [
     'name' => 'Name',
     'content' => 'Content',
     'specifications' => 'Specifications',
-    'dashboard' => 'dashboard',
+    'dashboard' => 'Dashboard',
     'home' => 'Home',
     'users' => 'Users',
     'logout' => 'Log Out',
@@ -64,4 +64,5 @@ return [
     'all' => 'View all',
     'empty_notify' => 'There are currently no notifications !',
     'report_sales' => ' Report sales of ',
+    'title_chart' => 'Revenue Statistical chart'
 ];

@@ -19,6 +19,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Charts -->
+    <script src="{{ asset('js/Chart.js') }}"></script>
 </head>
 
 <body class="font-sans antialiased">

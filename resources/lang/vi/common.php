@@ -64,4 +64,5 @@ return [
     'all' => 'Xem tất cả',
     'empty_notify' => 'Hiện tại không có thông báo !',
     'report_sales' => ' Báo cáo doanh số bán hàng trong tháng ',
+    'title_chart' => 'Biểu đồ thống kê doanh thu',
 ];

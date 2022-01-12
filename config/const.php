@@ -41,4 +41,6 @@ return [
     'four_stars' => 4,
     'five_stars' => 5,
     'percent' => 100,
+    'twelve' => 12,
+    'pink_color' => 'rgb(255, 99, 132)',
 ];

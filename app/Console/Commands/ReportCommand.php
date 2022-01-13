@@ -15,14 +15,14 @@ class ReportCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'report:sales';
+    public $signature = 'report:sales';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Sales report at 8:00am on the last day of the month.';
+    public $description = 'Sales report at 8:00am on the last day of the month.';
 
     /**
      * Create a new command instance.

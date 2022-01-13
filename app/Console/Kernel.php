@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    public function schedule(Schedule $schedule)
     {
         $schedule->command('report:sales')->lastDayOfMonth('8:00');
     }

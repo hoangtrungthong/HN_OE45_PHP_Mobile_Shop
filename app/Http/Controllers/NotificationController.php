@@ -30,4 +30,18 @@ class NotificationController extends Controller
 
         return redirect()->route('admin.orderDetails', $notify->data['order_id']);
     }
+
+    public function markAllRead()
+    {
+        $notifications = $this->userRepository
+            ->getNotifications()
+            ->where('read_at', null);
+        foreach ($notifications as $notify) {
+            $notify->update([
+                'read_at' => Carbon::now()->toDateTimeString(),
+            ]);
+        }
+
+        return redirect()->back();
+    }
 }

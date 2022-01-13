@@ -38,4 +38,5 @@ Route::group(['middleware' => ['role:admin','locale'] ], function () {
     Route::patch('reject-order/{id}', [OrderController::class, 'rejectOrder'])->name('rejectOrder');
 
     Route::resource('notifications', NotificationController::class)->only(['index', 'update']);
+    Route::get('mark-all-read', [NotificationController::class, 'markAllRead'])->name('markAllRead');
 });

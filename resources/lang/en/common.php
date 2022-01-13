@@ -61,7 +61,10 @@ return [
     'msg_feedback' => 'If there is a mistake, please give us feedback',
     'notifications' => 'Notifications',
     'new_order' => 'Got a new order from ',
-    'all' => 'View all',
+    'all' => 'All',
+    'all_notify' => 'View all notifications',
+    'mark_read' => 'Mark all as read',
+    'unread' => 'Unread',
     'empty_notify' => 'There are currently no notifications !',
     'report_sales' => ' Report sales of ',
     'title_chart' => 'Revenue Statistical chart'

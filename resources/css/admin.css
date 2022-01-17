@@ -54,3 +54,15 @@ input[type="file"] {
     background: white;
     color: black;
 }
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+#count-notify {
+    right: 40%;
+}

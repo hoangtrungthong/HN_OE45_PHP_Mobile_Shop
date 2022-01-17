@@ -21,8 +21,8 @@ var pusher = new Pusher('55797b70222e7b49e41a', {
     cluster: "ap1"
 });
 var channel = pusher.subscribe('notifications-order');
-channel.bind('NotificationEvent', function(e) {
-    var url = window.location.protocol+"//"+window.location.host+'/admin/notifications/'+e.id;
+channel.bind('NotificationEvent', function (e) {
+    var url = window.location.protocol + "//" + window.location.host + '/admin/notifications/' + e.id;
     var formNotification = `<form action="`
     formNotification += url
     formNotification += `" method="post" class="flex items-center justify-between bg-blue-50 p-3 mt-8">
@@ -49,8 +49,31 @@ channel.bind('NotificationEvent', function(e) {
 
     $('.list-notification').prepend(formNotification);
 
-    notificationsCount ++;
+    notificationsCount++;
     $("#count-notify").attr('data-count', notificationsCount);
     $("#open_notify").find('.notify-count').text(notificationsCount);
     $("#open_notify").show();
 });
+
+// tabs
+const tabs = document.getElementById("tabs");
+const tab = document.querySelectorAll(".tab");
+const panel = document.querySelectorAll(".tab-content");
+
+function onTabClick(event) {
+
+    for (let i = 0; i < tab.length; i++) {
+        tab[i].classList.remove("active");
+    }
+
+    for (let i = 0; i < panel.length; i++) {
+        panel[i].classList.remove("active");
+    }
+    event.target.classList.add('active');
+    let classString = event.target.getAttribute('data-target');
+    document.getElementById('panels').getElementsByClassName(classString)[0].classList.add("active");
+}
+
+for (let i = 0; i < tab.length; i++) {
+    tab[i].addEventListener('click', onTabClick, false);
+}

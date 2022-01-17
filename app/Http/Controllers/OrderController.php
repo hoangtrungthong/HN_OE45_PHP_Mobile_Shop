@@ -9,7 +9,6 @@ use App\Http\Requests\Order\StoreRequest;
 use App\Mail\OrderUser;
 use App\Models\Order;
 use App\Notifications\OrderAdminNotification;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -112,7 +111,7 @@ class OrderController extends Controller
 
             $orderData = [
                 'order_id' => $order->id,
-                'content' => __('common.new_order') . $order->user->name,
+                'content' => $order->user->name,
             ];
 
             // send notify admin

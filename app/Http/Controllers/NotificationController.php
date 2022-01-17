@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\UserRepository;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -33,14 +32,12 @@ class NotificationController extends Controller
 
     public function markAllRead()
     {
-        $notifications = $this->userRepository
+        $this->userRepository
             ->getNotifications()
-            ->where('read_at', null);
-        foreach ($notifications as $notify) {
-            $notify->update([
+            ->where('read_at', null)
+            ->update([
                 'read_at' => Carbon::now()->toDateTimeString(),
             ]);
-        }
 
         return redirect()->back();
     }

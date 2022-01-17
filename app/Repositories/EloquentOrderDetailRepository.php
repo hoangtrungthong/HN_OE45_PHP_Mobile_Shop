@@ -39,4 +39,11 @@ class ELoquentOrderDetailRepository extends EloquentRepository implements OrderD
         ->groupBy(['product_id', 'color_id', 'memory_id', 'price'])
         ->get();
     }
+
+    public function showDetailsOrders($id)
+    {
+        return $this->model->with(['order', 'product', 'color', 'memory'])
+            ->where('order_id', $id)
+            ->get();
+    }
 }

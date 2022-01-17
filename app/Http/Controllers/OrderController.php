@@ -34,42 +34,28 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = $this->orderRepository
-            ->with('user')
-            ->orderBy('id', 'desc')
-            ->paginate(config('const.pagination'));
+        $orders = $this->orderRepository->getAllOrders();
 
         return view('admin.orders.index', compact('orders'));
     }
 
     public function show($id)
     {
-        $orderDetails = $this->orderDetailRepository
-            ->with(['order', 'product', 'color', 'memory'])
-            ->where('order_id', $id)
-            ->get();
+        $orderDetails = $this->orderDetailRepository->showDetailsOrders($id);
 
         return view('admin.orders.details', compact('orderDetails'));
     }
 
     public function getOrderPending()
     {
-        $user = Auth::user();
-        $orders = $this->orderRepository->with('orderDetails')
-            ->where('user_id', $user->id)
-            ->where('status', '!=', config('const.approve'))
-            ->paginate(config('const.pagination'));
+        $orders = $this->orderRepository->getAllOrderPending();
 
         return view('user.orders', compact('orders'));
     }
 
     public function getOrderUser()
     {
-        $user = Auth::user();
-        $orders = $this->orderRepository->with('orderDetails')
-            ->where('user_id', $user->id)
-            ->where('status', config('const.approve'))
-            ->paginate(config('const.pagination'));
+        $orders = $this->orderRepository->getOrderUserApprove();
 
         return view('user.history_order', compact('orders'));
     }
@@ -131,18 +117,14 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            $order = Order::findOrFail($id);
-            $orderDetails = $this->orderDetailRepository
-                ->with(['order', 'product', 'color', 'memory'])
-                ->where('order_id', $id)
-                ->get();
+            $order = $this->orderRepository->findOrFail($id);
+            $orderDetails = $this->orderDetailRepository->showDetailsOrders($id);
 
             foreach ($orderDetails as $item) {
                 $productAttr = $item->product->productAttributes
                     ->where('color_id', $item->color_id)
                     ->where('memory_id', $item->memory_id)
                     ->firstOrFail();
-
                 if ($item->quantity > $productAttr->quantity) {
                     return redirect()->route('admin.orders.index')->with('alert', __('common.fail_quantity'));
                 }

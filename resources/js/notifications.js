@@ -14,6 +14,13 @@ close_notify.onclick = () => {
 };
 
 //realtime pusher
+
+if (document.documentElement.lang == 'vi') {
+    var newOrder = 'Có đơn đặt hàng mới từ ';
+} else {
+    var newOrder = 'Got a new order from ';
+}
+
 var notificationsCount = $("#count-notify").data('count');
 
 var pusher = new Pusher('55797b70222e7b49e41a', {
@@ -35,7 +42,7 @@ channel.bind('NotificationEvent', function (e) {
             </div>
             <div class="pl-3">
                 <p tabindex="0" class="focus:outline-none text-sm leading-none capitalize">
-                    ${e.content}
+                    ${newOrder + e.content}
                 </p>
                 <p tabindex="0" class="focus:outline-none float-left text-xs pt-1 text-gray-500">`
     formNotification += moment().fromNow()

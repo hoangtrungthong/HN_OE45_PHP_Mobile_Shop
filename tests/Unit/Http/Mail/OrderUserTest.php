@@ -18,7 +18,7 @@ class OrderUserTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->order = Mockery::mock(Order::class)->makePartial();
+        $this->order = Order::factory()->make();
         $this->orderUser = new OrderUser(
             $this->order,
         );
@@ -33,7 +33,7 @@ class OrderUserTest extends TestCase
 
     public function testBuild()
     {
-        $user = Mockery::mock(User::class)->makePartial();
+        $user = User::factory()->make();
         $user->id = 1;
 
         $orderDetails = Mockery::mock(OrderDetail::class)->makePartial();

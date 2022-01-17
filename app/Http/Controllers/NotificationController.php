@@ -33,14 +33,12 @@ class NotificationController extends Controller
 
     public function markAllRead()
     {
-        $notifications = $this->userRepository
+        $this->userRepository
             ->getNotifications()
-            ->where('read_at', null);
-        foreach ($notifications as $notify) {
-            $notify->update([
+            ->where('read_at', null)
+            ->update([
                 'read_at' => Carbon::now()->toDateTimeString(),
             ]);
-        }
 
         return redirect()->back();
     }

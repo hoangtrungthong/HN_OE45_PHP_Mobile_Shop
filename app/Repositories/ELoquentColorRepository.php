@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace app\Repositories;
 
 use App\Contracts\Repositories\ColorRepository;
 use App\Models\Color;

@@ -7,6 +7,7 @@ use App\Contracts\Repositories\OrderRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Http\Controllers\OrderController;
 use App\Http\Requests\Order\StoreRequest;
+use App\Mail\OrderUser;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -47,18 +48,16 @@ class OrderControllerTest extends TestCase
         );
     }
 
-
     public function tearDown(): void
     {
-        parent::tearDown();
         m::close();
         unset($this->orderController);
+        parent::tearDown();
     }
 
     public function testIndex()
     {
-        $order = m::mock(Order::class)->makePartial();
-        $order->id = 1;
+        $order = Order::factory()->make();
 
         $this->orderRepository->shouldReceive('getAllOrders')->andReturn($order);
 
@@ -68,7 +67,7 @@ class OrderControllerTest extends TestCase
 
     public function testShow()
     {
-        $order = m::mock(Order::class)->makePartial();
+        $order = Order::factory()->make();
         $order->id = 1;
 
         $orderDetails = m::mock(OrderDetail::class)->makePartial();
@@ -81,8 +80,7 @@ class OrderControllerTest extends TestCase
 
     public function testGetOrderPending()
     {
-        $order = m::mock(Order::class)->makePartial();
-        $order->id = 1;
+        $order = Order::factory()->make();
 
         $this->orderRepository->shouldReceive('getAllOrderPending')->andReturn($order);
 
@@ -92,8 +90,7 @@ class OrderControllerTest extends TestCase
 
     public function testGetOrderUser()
     {
-        $order = m::mock(Order::class)->makePartial();
-        $order->id = 1;
+        $order = Order::factory()->make();
 
         $this->orderRepository->shouldReceive('getOrderUserApprove')->andReturn($order);
 
@@ -141,12 +138,9 @@ class OrderControllerTest extends TestCase
             new Store('test', new SessionHandler)
         );
 
-        $order = m::mock(Order::class)->makePartial();
-        $order->id = 1;
+        $order = Order::factory()->make();
 
-        $user = m::mock(User::class)->makePartial();
-        $user->id = 1;
-        $user->name = 'Test';
+        $user = User::factory()->make();
 
         $order->setRelation('user', $user);
 
@@ -191,7 +185,7 @@ class OrderControllerTest extends TestCase
 
         Mail::fake();
 
-        $order = m::mock(Order::class)->makePartial();
+        $order = Order::factory()->make();
         $order->id = 1;
 
         $orderDetails = m::mock(OrderDetail::class)->makePartial();
@@ -203,8 +197,7 @@ class OrderControllerTest extends TestCase
         $product = m::mock(Product::class)->makePartial();
         $product->id = 1;
 
-        $user = m::mock(User::class)->makePartial();
-        $user->email = 'test@gmail.com';
+        $user = User::factory()->make();
 
         $productAttributes = m::mock(ProductAttribute::class)->makePartial();
         $productAttributes->id = 1;
@@ -226,6 +219,7 @@ class OrderControllerTest extends TestCase
         DB::shouldReceive('commit');
 
         $response = $this->orderController->state($order->id);
+        Mail::assertSent(OrderUser::class);
         $this->assertInstanceOf(RedirectResponse::class, $response);
     }
 
@@ -233,7 +227,7 @@ class OrderControllerTest extends TestCase
     {
         DB::shouldReceive('beginTransaction');
 
-        $order = m::mock(Order::class)->makePartial();
+        $order = Order::factory()->make();
         $order->id = 1;
 
         $orderDetails = m::mock(OrderDetail::class)->makePartial();
@@ -267,7 +261,7 @@ class OrderControllerTest extends TestCase
     {
         DB::shouldReceive('beginTransaction');
 
-        $order = m::mock(Order::class)->makePartial();
+        $order = Order::factory()->make();
         $order->id = 1;
 
         $this->orderRepository->shouldReceive('findOrFail')->andThrow(new Exception());
@@ -282,7 +276,7 @@ class OrderControllerTest extends TestCase
     public function testRejectOrder()
     {
         $id = 1;
-        $order = m::mock(Order::class)->makePartial();
+        $order = Order::factory()->make();
 
         $this->orderRepository->shouldReceive('whereId->update')->andReturn($order);
 

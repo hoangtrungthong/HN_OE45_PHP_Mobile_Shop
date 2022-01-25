@@ -44,8 +44,8 @@ class RepositoryServiceProvider extends ServiceProvider
         OrderDetailRepository::class => ELoquentOrderDetailRepository::class,
         CommentRepository::class => ELoquentCommentRepository::class,
         RatingRepository::class => ELoquentRatingRepository::class,
-        RoleRepository::class => ELoquentRoleRepository::class,
         UserRepository::class => ELoquentUserRepository::class,
+        RoleRepository::class => ELoquentRoleRepository::class,
     ];
 
      /**

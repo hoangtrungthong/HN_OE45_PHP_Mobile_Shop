@@ -6,6 +6,8 @@ use App\Contracts\Repositories\OrderDetailRepository;
 use App\Contracts\Repositories\OrderRepository;
 use App\Contracts\Repositories\UserRepository;
 use App\Http\Requests\Order\StoreRequest;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\Orders;
 use App\Mail\OrderUser;
 use App\Models\Order;
 use App\Notifications\OrderAdminNotification;
@@ -36,14 +38,16 @@ class OrderController extends Controller
     {
         $orders = $this->orderRepository->getAllOrders();
 
-        return view('admin.orders.index', compact('orders'));
+        // return view('admin.orders.index', compact('orders'));
+        return (new Orders($orders))->response();
     }
 
     public function show($id)
     {
         $orderDetails = $this->orderDetailRepository->showDetailsOrders($id);
 
-        return view('admin.orders.details', compact('orderDetails'));
+        // return view('admin.orders.details', compact('orderDetails'));
+        return (new OrderResource($orderDetails))->response();
     }
 
     public function getOrderPending()
